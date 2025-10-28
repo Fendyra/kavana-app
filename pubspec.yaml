@@ -38,6 +38,20 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  fluttertoast: ^8.2.8
+  d_session: ^0.0.3
+  fd_log: ^0.0.7
+  http: ^1.2.2
+  intl: ^0.19.0
+  get: ^4.6.6
+  gap: ^3.0.1
+  google_fonts: ^6.2.1
+  d_info: ^0.2.0
+  d_chart: ^2.8.0
+  calendar_view: ^1.2.0
+  google_generative_ai: ^0.4.5
+  flutter_markdown: ^0.7.3+1
+  image_picker: ^1.1.2
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -56,6 +70,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
