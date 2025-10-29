@@ -11,8 +11,7 @@ import 'package:kavana_app/view/controllers/detail_agenda/detail_agenda_controll
 import 'package:kavana_app/view/widget/custom_button.dart';
 import 'package:kavana_app/view/widget/response_failed.dart';
 import 'package:kavana_app/common/timezones.dart';
-import 'package:timezone/timezone.dart' as tz;  
-import 'package:url_launcher/url_launcher.dart'; 
+
 
 class DetailAgendaPage extends StatefulWidget {
   const DetailAgendaPage({super.key, required this.agendaId});
@@ -31,31 +30,6 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
   String _selectedDisplayTimezone = 'Lokal';
   Map<String, String> _timeZoneDisplayNames = {};
   List<String> _timeZoneOptions = [];
-
-  Future<void> _openMap(double? latitude, double? longitude) async {
-    if (latitude == null || longitude == null) {
-      Info.failed('Koordinat lokasi tidak tersedia.');
-      return;
-    }
-
-    // Skema URL untuk Google Maps (Android & iOS) dan Apple Maps (iOS)
-    String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-    String appleMapsUrl = 'https://maps.apple.com/?q=$latitude,$longitude';
-
-    Uri googleUri = Uri.parse(googleMapsUrl);
-    Uri appleUri = Uri.parse(appleMapsUrl);
-
-    // Coba buka Google Maps dulu
-    if (await canLaunchUrl(googleUri)) {
-      await launchUrl(googleUri);
-    }
-    // Jika Google Maps tidak bisa (misal di iOS tanpa Google Maps terinstall), coba Apple Maps
-    else if (await canLaunchUrl(appleUri)) {
-      await launchUrl(appleUri);
-    } else {
-      Info.failed('Tidak dapat membuka aplikasi peta.');
-    }
-  }
 
   void delete() async {
     bool? yes = await DInfo.dialogConfirmation(
