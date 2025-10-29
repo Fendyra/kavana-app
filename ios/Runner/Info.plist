@@ -45,5 +45,18 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Aplikasi ini memerlukan akses lokasi untuk menambahkan lokasi pada agenda Anda.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>Aplikasi ini memerlukan akses lokasi untuk menambahkan lokasi pada agenda Anda.</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>Aplikasi ini memerlukan akses lokasi untuk menambahkan lokasi pada agenda Anda.</string>
+		<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>https</string>
+  <string>http</string>
+  <string>tel</string>
+  <string>mailto</string>
+  <string>maps</string> </array>
 </dict>
 </plist>

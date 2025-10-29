@@ -7,6 +7,9 @@ class AgendaModel {
   final DateTime endEvent;
   final String? description;
   final String? timeZone;
+  final String? locationName;
+  final double? latitude;
+  final double? longitude;
   AgendaModel({
     required this.id,
     this.userId,
@@ -16,6 +19,9 @@ class AgendaModel {
     required this.endEvent,
     this.description,
     this.timeZone,
+    this.locationName,
+    this.latitude,
+    this.longitude,
   });
 
   Map<String, dynamic> toJson() {
@@ -40,6 +46,9 @@ class AgendaModel {
       endEvent: DateTime.parse(json['end_event']),
       description: json['description'],
       timeZone: json['time_zone'],
+      locationName: json['location_name'],
+      latitude: json['latitude'] != null ? (json['latitude'] as num).toDouble() : null,
+      longitude: json['longitude'] != null ? (json['longitude'] as num).toDouble() : null,
     );
   }
 
@@ -53,6 +62,9 @@ class AgendaModel {
       'end_event': endEvent.toIso8601String(),
       'description': description.toString(),
       'time_zone': timeZone.toString(),
+      'location_name': locationName ?? '',
+      'latitude': latitude?.toString() ?? '',
+      'longitude': longitude?.toString() ?? '',
     };
   }
 }

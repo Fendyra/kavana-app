@@ -12,6 +12,7 @@ import 'package:kavana_app/view/controllers/add_agenda_controller.dart';
 import 'package:kavana_app/view/controllers/all_agenda/all_agenda_controller.dart';
 import 'package:kavana_app/view/widget/custom_button.dart';
 import 'package:kavana_app/view/widget/custom_input.dart';
+import 'package:geolocator/geolocator.dart';
 
 
 class AddAgendaPage extends StatefulWidget {
@@ -38,6 +39,11 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
     text: DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
   );
   final descriptionController = TextEditingController();
+
+  String? _locationName;
+  double? _latitude;
+  double? _longitude;
+  bool _isGettingLocation = false;
 
   void addNew() async {
     final title = titleController.text;
@@ -92,6 +98,9 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
       endEvent: endEventDate,
       description: description,
       userId: userId,
+      locationName: _locationName,
+      latitude: _latitude,
+      longitude: _longitude,
     );
     final state = await addAgendaController.executeRequest(agenda);
 
@@ -105,6 +114,54 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
       Info.success(state.message);
       if (mounted) Navigator.pop(context);
       return;
+    }
+  }
+
+  Future<void> _getCurrentLocation() async {
+    setState(() => _isGettingLocation = true);
+    try {
+      bool serviceEnabled;
+      LocationPermission permission;
+
+      // Test if location services are enabled.
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        Info.failed('Location services are disabled.');
+        setState(() => _isGettingLocation = false);
+        return;
+      }
+
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          Info.failed('Location permissions are denied');
+          setState(() => _isGettingLocation = false);
+          return;
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        Info.failed('Location permissions are permanently denied, we cannot request permissions.');
+        setState(() => _isGettingLocation = false);
+        return;
+      }
+
+   
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.medium); // Bisa disesuaikan akurasinya
+
+      setState(() {
+        _latitude = position.latitude;
+        _longitude = position.longitude;
+        _locationName = 'Lat: ${_latitude?.toStringAsFixed(4)}, Lon: ${_longitude?.toStringAsFixed(4)}';
+        _isGettingLocation = false;
+      });
+       Info.success('Lokasi saat ini berhasil didapatkan');
+    } catch (e) {
+      print("Error getting location: $e");
+      Info.failed('Gagal mendapatkan lokasi: $e');
+      setState(() => _isGettingLocation = false);
     }
   }
 
@@ -162,9 +219,12 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
                 const Gap(20),
                 buildEndEventInput(),
                 const Gap(20),
+                buildLocationInput(),
+                const Gap(20),
                 buildDescriptionInput(),
                 const Gap(30),
                 buildAddButton(),
+                const Gap(30),
               ],
             ),
           ),
@@ -359,6 +419,66 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
     );
   }
 
+  Widget buildLocationInput() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Lokasi Acara',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+            color: AppColor.textTitle,
+          ),
+        ),
+        const Gap(12),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: AppColor.primary, width: 2),
+          ),
+          child: Row(
+            children: [
+              const Icon(Icons.location_on_outlined, color: AppColor.textBody),
+              const Gap(10),
+              Expanded(
+                child: Text(
+                  _locationName ?? 'Belum ada lokasi',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: _locationName != null ? AppColor.textTitle : AppColor.textBody,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              const Gap(10),
+              _isGettingLocation
+                  ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2))
+                  : IconButton(
+                      icon: Icon(Icons.my_location, color: AppColor.primary),
+                      onPressed: _getCurrentLocation,
+                      tooltip: 'Gunakan Lokasi Saat Ini',
+                    ),
+               if (_locationName != null) // Tombol Hapus Lokasi
+                 IconButton(
+                   icon: Icon(Icons.clear, color: AppColor.error.withOpacity(0.7)),
+                   onPressed: () {
+                     setState(() {
+                       _locationName = null;
+                       _latitude = null;
+                       _longitude = null;
+                     });
+                   },
+                   tooltip: 'Hapus Lokasi',
+                 ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
   Widget buildAddButton() {
     return Obx(() {
       final state = addAgendaController.state;
