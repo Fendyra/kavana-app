@@ -2,7 +2,6 @@ import 'package:d_info/d_info.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:kavana_app/common/app_color.dart';
 import 'package:kavana_app/common/enums.dart';
 import 'package:kavana_app/common/info.dart';
@@ -11,6 +10,7 @@ import 'package:kavana_app/view/controllers/detail_agenda/delete_agenda_controll
 import 'package:kavana_app/view/controllers/detail_agenda/detail_agenda_controller.dart';
 import 'package:kavana_app/view/widget/custom_button.dart';
 import 'package:kavana_app/view/widget/response_failed.dart';
+import 'package:kavana_app/common/timezones.dart';
 
 class DetailAgendaPage extends StatefulWidget {
   const DetailAgendaPage({super.key, required this.agendaId});
@@ -25,6 +25,10 @@ class DetailAgendaPage extends StatefulWidget {
 class _DetailAgendaPageState extends State<DetailAgendaPage> {
   final detailAgendaController = Get.put(DetailAgendaController());
   final deleteAgendaController = Get.put(DeleteAgendaController());
+
+  String _selectedDisplayTimezone = 'Lokal';
+  Map<String, String> _timeZoneDisplayNames = {};
+  List<String> _timeZoneOptions = [];
 
   void delete() async {
     bool? yes = await DInfo.dialogConfirmation(
@@ -51,8 +55,11 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
 
   @override
   void initState() {
-    detailAgendaController.fetchData(widget.agendaId);
     super.initState();
+    _timeZoneDisplayNames = getDisplayTimeZoneNames();
+    _timeZoneOptions = getDisplayTimeZoneOptions();
+    _selectedDisplayTimezone = _timeZoneOptions.first;
+    detailAgendaController.fetchData(widget.agendaId);
   }
 
   @override
@@ -110,10 +117,13 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
                   buildTitle(agenda.title),
                   const Gap(30),
                   buildEventDate(agenda.startEvent, agenda.endEvent),
+                  const Gap(20),
+                  buildTimeZoneSelector(),
                   const Gap(30),
                   buildDescription(agenda.description ?? '-'),
                   const Gap(30),
                   buildDeleteButton(),
+                  const Gap(30),
                 ],
               );
             },
@@ -168,7 +178,7 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
     );
   }
 
-  Widget buildEventDate(DateTime start, DateTime end) {
+  Widget buildEventDate(DateTime originalStart, DateTime originalEnd) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
       margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -178,28 +188,108 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [start, '', end].map(
-          (e) {
-            if (e == '') return const Gap(12);
-            return Row(
-              children: [
-                const ImageIcon(
-                  AssetImage('assets/icons/calendar.png'),
-                  size: 24,
-                  color: AppColor.primary,
+        children: [
+          Row(
+            children: [
+              const ImageIcon(
+                AssetImage('assets/icons/calendar.png'),
+                size: 24,
+                color: AppColor.primary,
+              ),
+              const Gap(12),
+              Text(
+                formatDateForDisplay(originalStart),
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: AppColor.textBody,
                 ),
-                const Gap(12),
-                Text(
-                  DateFormat('EEEE, dd/MM/yyyy, HH:mm').format(e as DateTime),
+              ),
+            ],
+          ),
+          const Gap(12),
+          Row(
+            children: [
+              const Icon(Icons.access_time_outlined, size: 24, color: AppColor.primary),
+              const Gap(12),
+              Expanded(
+                child: Text(
+                  formatTimeForDisplay(
+                    originalTime: originalStart,
+                    displayTimeZoneId: _selectedDisplayTimezone,
+                  ),
                   style: const TextStyle(
                     fontSize: 14,
                     color: AppColor.textBody,
                   ),
                 ),
-              ],
-            );
-          },
-        ).toList(),
+              ),
+            ],
+          ),
+          const Gap(4),
+          Row(
+            children: [
+              const Icon(Icons.timer_off_outlined, size: 24, color: AppColor.primary),
+              const Gap(12),
+              Expanded(
+                child: Text(
+                  formatTimeForDisplay(
+                    originalTime: originalEnd,
+                    displayTimeZoneId: _selectedDisplayTimezone,
+                  ),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: AppColor.textBody,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildTimeZoneSelector() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: DropdownButtonFormField<String>(
+        value: _selectedDisplayTimezone,
+        items: _timeZoneOptions.map((id) {
+          return DropdownMenuItem<String>(
+            value: id,
+            child: Text(
+              _timeZoneDisplayNames[id] ?? id,
+              style: const TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: AppColor.textBody,
+              ),
+            ),
+          );
+        }).toList(),
+        onChanged: (value) {
+          if (value == null) return;
+          setState(() {
+            _selectedDisplayTimezone = value;
+          });
+        },
+        icon: const Icon(Icons.arrow_drop_down, color: AppColor.primary),
+        decoration: InputDecoration(
+          fillColor: Colors.white,
+          filled: true,
+          isDense: true,
+          labelText: 'Tampilkan dalam Zona Waktu',
+          labelStyle: const TextStyle(color: AppColor.primary, fontSize: 16),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(color: AppColor.primary, width: 2),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(color: AppColor.primary, width: 2),
+          ),
+        ),
       ),
     );
   }
@@ -239,10 +329,15 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
   Widget buildDeleteButton() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: ButtonDelete(
-        onPressed: delete,
-        title: 'Delete',
-      ),
+      child: Obx(() {
+        if (deleteAgendaController.state.statusRequest == StatusRequest.loading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return ButtonDelete(
+          onPressed: delete,
+          title: 'Delete',
+        );
+      }),
     );
   }
 }

@@ -15,10 +15,25 @@ import 'package:kavana_app/view/pages/register_page.dart';
 import 'package:kavana_app/view/pages/solution/add_solution_page.dart';
 import 'package:kavana_app/view/pages/solution/detail_solution_page.dart';
 import 'package:kavana_app/view/pages/solution/update_solution_page.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
-void main() {
+void main() async { 
   WidgetsFlutterBinding.ensureInitialized();
+  await _initializeTimeZones(); 
   runApp(const MainApp());
+}
+
+Future<void> _initializeTimeZones() async {
+  tz.initializeTimeZones();
+  try {
+      final String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
+      tz.setLocalLocation(tz.getLocation(currentTimeZone));
+  } catch (e) {
+      print('Could not get local timezone: $e');
+      tz.setLocalLocation(tz.getLocation('Asia/Jakarta')); 
+  }
 }
 
 class MainApp extends StatelessWidget {
