@@ -11,7 +11,8 @@ import 'package:kavana_app/view/controllers/detail_agenda/detail_agenda_controll
 import 'package:kavana_app/view/widget/custom_button.dart';
 import 'package:kavana_app/view/widget/response_failed.dart';
 import 'package:kavana_app/common/timezones.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:timezone/timezone.dart' as tz;  
+import 'package:url_launcher/url_launcher.dart'; 
 
 class DetailAgendaPage extends StatefulWidget {
   const DetailAgendaPage({super.key, required this.agendaId});
@@ -36,34 +37,45 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
       Info.failed('Koordinat lokasi tidak tersedia.');
       return;
     }
-    Uri geoUri = Uri.parse('geo:$latitude,$longitude?q=$latitude,$longitude(Lokasi Agenda)');
-    if (await canLaunchUrl(geoUri)) {
-      await launchUrl(geoUri);
+
+    // Skema URL untuk Google Maps (Android & iOS) dan Apple Maps (iOS)
+    String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    String appleMapsUrl = 'https://maps.apple.com/?q=$latitude,$longitude';
+
+    Uri googleUri = Uri.parse(googleMapsUrl);
+    Uri appleUri = Uri.parse(appleMapsUrl);
+
+    // Coba buka Google Maps dulu
+    if (await canLaunchUrl(googleUri)) {
+      await launchUrl(googleUri);
+    }
+    // Jika Google Maps tidak bisa (misal di iOS tanpa Google Maps terinstall), coba Apple Maps
+    else if (await canLaunchUrl(appleUri)) {
+      await launchUrl(appleUri);
     } else {
       Info.failed('Tidak dapat membuka aplikasi peta.');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Koordinat: $latitude, $longitude')),
-      );
     }
   }
 
   void delete() async {
     bool? yes = await DInfo.dialogConfirmation(
       context,
-      'Hapus Agenda',
-      'Apakah Anda yakin ingin menghapus agenda ini?',
-      textNo: 'Batal',
-      textYes: 'Ya, Hapus',
+      'Delete',
+      'Click yes to confirm delete',
     );
     if (yes ?? false) {
-      final state = await deleteAgendaController.executeRequest(widget.agendaId);
+      final state =
+          await deleteAgendaController.executeRequest(widget.agendaId);
+
       if (state.statusRequest == StatusRequest.failed) {
         Info.failed(state.message);
         return;
       }
+
       if (state.statusRequest == StatusRequest.success) {
         Info.success(state.message);
         if (mounted) Navigator.pop(context, 'refresh_agenda');
+        return;
       }
     }
   }
@@ -108,12 +120,12 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
             () {
               final state = detailAgendaController.state;
               final statusRequest = state.statusRequest;
-
-              if (statusRequest == StatusRequest.loading ||
-                  statusRequest == StatusRequest.init) {
+              if (statusRequest == StatusRequest.init) {
+                return const SizedBox();
+              }
+              if (statusRequest == StatusRequest.loading) {
                 return const Center(child: CircularProgressIndicator());
               }
-
               if (statusRequest == StatusRequest.failed) {
                 return Center(
                   child: ResponseFailed(
@@ -122,35 +134,24 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
                   ),
                 );
               }
-
               AgendaModel agenda = state.agenda!;
-              return RefreshIndicator(
-                onRefresh: () async {
-                  detailAgendaController.fetchData(widget.agendaId);
-                },
-                child: ListView(
-                  padding: const EdgeInsets.all(0),
-                  children: [
-                    const Gap(50),
-                    buildHeader(agenda.category),
-                    const Gap(20),
-                    buildTitle(agenda.title),
-                    const Gap(30),
-                    buildEventDate(agenda.startEvent, agenda.endEvent),
-                    const Gap(20),
-                    buildTimeZoneSelector(),
-                    const Gap(20),
-                    if (agenda.locationName != null ||
-                        (agenda.latitude != null && agenda.longitude != null))
-                      buildLocationInfo(
-                          agenda.locationName, agenda.latitude, agenda.longitude),
-                    const Gap(30),
-                    buildDescription(agenda.description ?? 'Tidak ada deskripsi'),
-                    const Gap(30),
-                    buildDeleteButton(),
-                    const Gap(30),
-                  ],
-                ),
+              return ListView(
+                padding: const EdgeInsets.all(0),
+                children: [
+                  const Gap(50),
+                  buildHeader(agenda.category),
+                  const Gap(20),
+                  buildTitle(agenda.title),
+                  const Gap(30),
+                  buildEventDate(agenda.startEvent, agenda.endEvent),
+                  const Gap(20),
+                  buildTimeZoneSelector(),
+                  const Gap(30),
+                  buildDescription(agenda.description ?? '-'),
+                  const Gap(30),
+                  buildDeleteButton(),
+                  const Gap(30),
+                ],
               );
             },
           ),
@@ -173,17 +174,11 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
             ),
           ),
           const Gap(10),
-          Chip(
-            label: Text(category),
-            visualDensity: const VisualDensity(vertical: -4),
-            labelStyle: const TextStyle(
+          Text(
+            category,
+            style: const TextStyle(
               fontSize: 14,
-              color: AppColor.primary,
-            ),
-            backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-              side: BorderSide.none,
+              color: Colors.white,
             ),
           ),
         ],
@@ -203,7 +198,7 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
         title,
         style: const TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 18,
+          fontSize: 16,
           color: AppColor.textTitle,
         ),
       ),
@@ -229,23 +224,19 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
                 color: AppColor.primary,
               ),
               const Gap(12),
-              Expanded(
-                child: Text(
-                  formatDateForDisplay(originalStart),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: AppColor.textBody,
-                  ),
+              Text(
+                formatDateForDisplay(originalStart),
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: AppColor.textBody,
                 ),
               ),
             ],
           ),
-          const Gap(16),
+          const Gap(12),
           Row(
             children: [
-              const Icon(Icons.access_time_outlined,
-                  size: 24, color: AppColor.primary),
+              const Icon(Icons.access_time_outlined, size: 24, color: AppColor.primary),
               const Gap(12),
               Expanded(
                 child: Text(
@@ -261,11 +252,10 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
               ),
             ],
           ),
-          const Gap(8),
+          const Gap(4),
           Row(
             children: [
-              const Icon(Icons.timer_off_outlined,
-                  size: 24, color: AppColor.primary),
+              const Icon(Icons.timer_off_outlined, size: 24, color: AppColor.primary),
               const Gap(12),
               Expanded(
                 child: Text(
@@ -301,7 +291,6 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
                 fontSize: 14,
                 color: AppColor.textBody,
               ),
-              overflow: TextOverflow.ellipsis,
             ),
           );
         }).toList(),
@@ -311,17 +300,14 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
             _selectedDisplayTimezone = value;
           });
         },
-        icon: const Icon(Icons.arrow_drop_down_rounded,
-            color: AppColor.primary),
+        icon: const Icon(Icons.arrow_drop_down, color: AppColor.primary),
         decoration: InputDecoration(
           fillColor: Colors.white,
           filled: true,
           isDense: true,
-          labelText: 'Tampilkan Waktu dalam Zona',
-          labelStyle:
-              const TextStyle(color: AppColor.primary, fontSize: 14),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          labelText: 'Tampilkan dalam Zona Waktu',
+          labelStyle: const TextStyle(color: AppColor.primary, fontSize: 16),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
             borderSide: const BorderSide(color: AppColor.primary, width: 2),
@@ -330,55 +316,7 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
             borderRadius: BorderRadius.circular(20),
             borderSide: const BorderSide(color: AppColor.primary, width: 2),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide:
-                BorderSide(color: AppColor.primary.withOpacity(0.8), width: 2),
-          ),
         ),
-      ),
-    );
-  }
-
-  Widget buildLocationInfo(String? name, double? lat, double? lon) {
-    String displayText = name ??
-        (lat != null && lon != null
-            ? 'Lat: ${lat.toStringAsFixed(4)}, Lon: ${lon.toStringAsFixed(4)}'
-            : 'Lokasi Tersimpan');
-    bool canOpenMap = lat != null && lon != null;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.location_on_outlined,
-              size: 24, color: AppColor.primary),
-          const Gap(12),
-          Expanded(
-            child: Text(
-              displayText,
-              style: const TextStyle(
-                fontSize: 14,
-                color: AppColor.textBody,
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          if (canOpenMap)
-            IconButton(
-              icon: const Icon(Icons.map_rounded, color: AppColor.primary),
-              onPressed: () => _openMap(lat, lon),
-              tooltip: 'Buka di Peta',
-              splashRadius: 20,
-              constraints: const BoxConstraints(),
-              padding: const EdgeInsets.all(4),
-            ),
-        ],
       ),
     );
   }
@@ -395,7 +333,7 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Deskripsi',
+            'Description',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -408,9 +346,7 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
             style: const TextStyle(
               fontSize: 14,
               color: AppColor.textBody,
-              height: 1.5,
             ),
-            textAlign: TextAlign.justify,
           ),
         ],
       ),
@@ -421,14 +357,12 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Obx(() {
-        if (deleteAgendaController.state.statusRequest ==
-            StatusRequest.loading) {
-          return const Center(
-              child: CircularProgressIndicator(color: AppColor.error));
+        if (deleteAgendaController.state.statusRequest == StatusRequest.loading) {
+          return const Center(child: CircularProgressIndicator());
         }
         return ButtonDelete(
           onPressed: delete,
-          title: 'Hapus Agenda Ini',
+          title: 'Delete',
         );
       }),
     );
