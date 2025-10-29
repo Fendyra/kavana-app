@@ -101,7 +101,7 @@ class AgendaRemoteDataSource {
   }
 
   static Future<(bool, String, List<AgendaModel>?)> today(int userId) async {
-    Uri url = Uri.parse('${API.baseURL}/api/agendas/today.php');
+    Uri url = Uri.parse('${API.baseURL}/api/agendas/get_today.php');
     DateTime now = DateTime.now();
     String startDate = DateFormat('yyyy-MM-dd').format(
       DateTime(now.year, now.month, now.day),
