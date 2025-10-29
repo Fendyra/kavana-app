@@ -1,5 +1,3 @@
-
-
 class UserModel {
   final int id;
   final String name;
@@ -16,22 +14,22 @@ class UserModel {
   });
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{
+    return {
       'id': id,
       'name': name,
       'email': email,
       'password': password,
-      'createdAt': createdAt.toIso8601String(),
+      'created_at': createdAt.toIso8601String(),
     };
   }
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],
-      name: json['name'] ,
-      email: json['email'] ,
-      password: json['password'] ,
-      createdAt: DateTime.parse(json['createdAt']),
+      name: json['name'],
+      email: json['email'],
+      password: json['password'],
+      createdAt: DateTime.parse(json['created_at']),
     );
   }
 }

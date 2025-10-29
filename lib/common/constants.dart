@@ -1,6 +1,4 @@
 class Constants {
-  static const agendaCategory = ['Travel', 'work', 'personal', 'sport', 'Family'];
-  static const googleAIAPIkey = String.fromEnvironment('GOOGLE_AI_API_KEY');
-
-  static get agendaCategories => null;
+  static const agendaCategories = ['Travel', 'Food & Drink', 'Sport', 'Family'];
+  static const googleAIAPIKey = String.fromEnvironment('GOOGLE_AI_API_KEY');
 }

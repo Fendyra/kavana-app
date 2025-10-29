@@ -1,3 +1,3 @@
 class API {
-  static const baseURL = 'https://192.168.1.24/self_management';
+  static const baseURL = 'http://192.168.1.7:8000';
 }

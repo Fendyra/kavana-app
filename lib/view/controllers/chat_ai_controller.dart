@@ -35,7 +35,7 @@ class ChatAIController extends GetxController {
   setupModel() {
     _model = GenerativeModel(
       model: 'gemini-1.5-flash-latest',
-      apiKey: Constants.googleAIAPIkey,
+      apiKey: Constants.googleAIAPIKey,
     );
     _chatSession = _model.startChat();
   }

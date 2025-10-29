@@ -26,7 +26,7 @@ packages:
     source: hosted
     version: "2.1.2"
   calendar_view:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: calendar_view
       sha256: "94b5ccc06f6ab11fa3e40eda19f6f925bc49a355dfad8cfafece3bad54ce9773"
@@ -89,16 +89,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.6"
-  cupertino_icons:
-    dependency: "direct main"
-    description:
-      name: cupertino_icons
-      sha256: ba631d1c7f7bef6b729a622b7b752645a2d076dba9976925b8f25725a30e1ee6
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.8"
   d_chart:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: d_chart
       sha256: "231d2c0c65b85a5e557c8293506649bbda1fcbb7292b019cf0a64a6986ccfe1f"
@@ -106,7 +98,7 @@ packages:
     source: hosted
     version: "2.10.5"
   d_info:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: d_info
       sha256: c2a814a56c370db53c09368e902c5639bc5c6c1d76eb95c47ada02ea557ef699
@@ -114,7 +106,7 @@ packages:
     source: hosted
     version: "0.2.0"
   d_session:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: d_session
       sha256: "23f30f0bc66dee373e66fcb251093c54ba4eee977b4a6ed7bf47e832ff658ce9"
@@ -130,7 +122,7 @@ packages:
     source: hosted
     version: "1.3.3"
   fd_log:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: fd_log
       sha256: "5bcbf1f07eabd98e2ec38989991a9000b4de9b2cec0bf6a603265ea98e2d73e0"
@@ -194,12 +186,12 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_lints
-      sha256: "5398f14efa795ffb7a33e9b6a08798b26a180edac4ad7db3f231e40f82ce11e1"
+      sha256: "3f41d009ba7172d5ff9be5f6e6e6abb4300e263aab8866d2a0842ed2a70f8f0c"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0"
+    version: "4.0.0"
   flutter_markdown:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_markdown
       sha256: "08fb8315236099ff8e90cb87bb2b935e0a724a3af1623000a9cec930468e0f27"
@@ -225,7 +217,7 @@ packages:
     source: sdk
     version: "0.0.0"
   fluttertoast:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: fluttertoast
       sha256: "90778fe0497fe3a09166e8cf2e0867310ff434b794526589e77ec03cf08ba8e8"
@@ -233,7 +225,7 @@ packages:
     source: hosted
     version: "8.2.14"
   gap:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: gap
       sha256: f19387d4e32f849394758b91377f9153a1b41d79513ef7668c088c77dbc6955d
@@ -241,7 +233,7 @@ packages:
     source: hosted
     version: "3.0.1"
   get:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: get
       sha256: c79eeb4339f1f3deffd9ec912f8a923834bec55f7b49c9e882b8fef2c139d425
@@ -249,7 +241,7 @@ packages:
     source: hosted
     version: "4.7.2"
   google_fonts:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: google_fonts
       sha256: "517b20870220c48752eafa0ba1a797a092fb22df0d89535fd9991e86ee2cdd9c"
@@ -257,7 +249,7 @@ packages:
     source: hosted
     version: "6.3.2"
   google_generative_ai:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: google_generative_ai
       sha256: "71f613d0247968992ad87a0eb21650a566869757442ba55a31a81be6746e0d1f"
@@ -265,7 +257,7 @@ packages:
     source: hosted
     version: "0.4.7"
   http:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: http
       sha256: bb2ce4590bc2667c96f318d68cac1b5a7987ec819351d32b1c987239a815e007
@@ -281,7 +273,7 @@ packages:
     source: hosted
     version: "4.1.2"
   image_picker:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: image_picker
       sha256: "736eb56a911cf24d1859315ad09ddec0b66104bc41a7f8c5b96b4e2620cf5041"
@@ -345,7 +337,7 @@ packages:
     source: hosted
     version: "0.2.2"
   intl:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: intl
       sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
@@ -380,10 +372,10 @@ packages:
     dependency: transitive
     description:
       name: lints
-      sha256: c35bb79562d980e9a453fc715854e1ed39e24e7d0297a880ef54e17f9874a9d7
+      sha256: "976c774dd944a42e83e2467f4cc670daef7eed6295b10b36ae8c85bcbf828235"
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.1"
+    version: "4.0.0"
   markdown:
     dependency: transitive
     description:
@@ -646,5 +638,5 @@ packages:
     source: hosted
     version: "1.1.0"
 sdks:
-  dart: ">=3.9.2 <4.0.0"
+  dart: ">=3.9.0 <4.0.0"
   flutter: ">=3.35.0"
