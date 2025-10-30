@@ -9,6 +9,9 @@ import 'package:kavana_app/view/pages/agenda/all_agenda_page.dart';
 import 'package:kavana_app/view/pages/agenda/detail_agenda_page.dart';
 import 'package:kavana_app/view/pages/chat_ai_page.dart';
 import 'package:kavana_app/view/pages/dashboard_page.dart';
+import 'package:kavana_app/view/pages/finance/add_savings_page.dart';
+import 'package:kavana_app/view/pages/finance/currency_converter_page.dart';
+import 'package:kavana_app/view/pages/finance/savings_history_page.dart';
 import 'package:kavana_app/view/pages/login_page.dart';
 import 'package:kavana_app/view/pages/mood/choose_mood_page.dart';
 import 'package:kavana_app/view/pages/register_page.dart';
@@ -18,6 +21,7 @@ import 'package:kavana_app/view/pages/solution/update_solution_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+
 
 void main() async { 
   WidgetsFlutterBinding.ensureInitialized();
@@ -92,7 +96,14 @@ class MainApp extends StatelessWidget {
           return DetailSolutionPage(solutionId: solutionId);
         },
         ChatAIPage.routeName: (context) => const ChatAIPage(),
+        AddSavingsPage.routeName: (context) => const AddSavingsPage(),
+        CurrencyConverterPage.routeName: (context) {
+          double totalSavings = ModalRoute.settingsOf(context)?.arguments as double;
+          return CurrencyConverterPage();
+        },
+        SavingsHistoryPage.routeName: (context) => const SavingsHistoryPage(),
       },
+
     );
   }
 }

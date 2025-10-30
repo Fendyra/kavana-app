@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:kavana_app/common/app_color.dart';
 import 'package:kavana_app/view/pages/account_page.dart';
 import 'package:kavana_app/view/pages/fragments/analytic_fragment.dart';
+import 'package:kavana_app/view/pages/fragments/finance_fragment.dart';
 import 'package:kavana_app/view/pages/fragments/home_fragment.dart';
 import 'package:kavana_app/view/pages/fragments/solution_fragment.dart';
 
@@ -18,27 +19,32 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   final navIndex = 0.obs;
 
-  final List<Map<String, dynamic>> menu = [
-    {
-      'icon': 'assets/icons/home_outlined.png',
-      'view': const HomeFragment(),
-      'isPage': false,
-    },
-    {
-      'icon': 'assets/icons/chart_outlined.png',
-      'view': const AnalyticFragment(),
-      'isPage': false,
-    },
-    {
-      'icon': 'assets/icons/doc_outlined.png',
-      'view': const SolutionFragment(),
-      'isPage': false,
-    },
-    {
-      'icon': 'assets/icons/profile_square.png',
-      'view': null,
-      'isPage': true,
-    },
+final List<Map<String, dynamic>> menu = [
+  {
+    'icon': 'assets/icons/home_outlined.png',
+    'view': const HomeFragment(),
+    'isPage': false,
+  },
+  {
+    'icon': 'assets/icons/chart_outlined.png',
+    'view': const AnalyticFragment(),
+    'isPage': false,
+  },
+  {
+    'icon': 'assets/icons/doc_outlined.png',
+    'view': const SolutionFragment(),
+    'isPage': false,
+  },
+  {
+    'icon': 'assets/icons/money.png', 
+    'view': const FinanceFragment(),
+    'isPage': false,
+  },
+  {
+    'icon': 'assets/icons/profile_square.png',
+    'view': null,
+    'isPage': true,
+  },
   ];
 
   @override
