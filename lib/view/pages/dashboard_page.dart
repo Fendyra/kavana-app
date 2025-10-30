@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kavana_app/common/app_color.dart';
+import 'package:kavana_app/view/pages/account_page.dart';
 import 'package:kavana_app/view/pages/fragments/analytic_fragment.dart';
 import 'package:kavana_app/view/pages/fragments/home_fragment.dart';
 import 'package:kavana_app/view/pages/fragments/solution_fragment.dart';
@@ -21,14 +22,22 @@ class _DashboardPageState extends State<DashboardPage> {
     {
       'icon': 'assets/icons/home_outlined.png',
       'view': const HomeFragment(),
+      'isPage': false,
     },
     {
       'icon': 'assets/icons/chart_outlined.png',
       'view': const AnalyticFragment(),
+      'isPage': false,
     },
     {
       'icon': 'assets/icons/doc_outlined.png',
       'view': const SolutionFragment(),
+      'isPage': false,
+    },
+    {
+      'icon': 'assets/icons/profile_square.png',
+      'view': null,
+      'isPage': true,
     },
   ];
 
@@ -67,12 +76,18 @@ class _DashboardPageState extends State<DashboardPage> {
             children: List.generate(menu.length, (index) {
               bool isActive = index == navIndex.value;
               String icon = menu[index]['icon'];
+              bool isPage = menu[index]['isPage'];
+
               return Material(
                 borderRadius: BorderRadius.circular(12),
                 color: isActive ? AppColor.primary : Colors.white,
                 child: InkWell(
                   onTap: () {
-                    navIndex.value = index;
+                    if (isPage) {
+                      Navigator.pushNamed(context, AccountPage.routeName);
+                    } else {
+                      navIndex.value = index;
+                    }
                   },
                   borderRadius: BorderRadius.circular(12),
                   child: SizedBox(

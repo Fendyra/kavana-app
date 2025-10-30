@@ -49,16 +49,19 @@ class _AccountPageState extends State<AccountPage> {
             child: BottomClipPainter(),
           ),
           Positioned(
-            top: 210,
-            left: 0,
-            right: 0,
-            child: buildProfile(),
-          ),
-          Positioned(
             top: 58,
             left: 20,
             right: 0,
             child: buildHeader(),
+          ),
+          Positioned.fill(
+            top: 110,
+            child: ListView(
+              padding: const EdgeInsets.only(top: 100, bottom: 30),
+              children: [
+                buildProfile(),
+              ],
+            ),
           ),
         ],
       ),
@@ -67,53 +70,278 @@ class _AccountPageState extends State<AccountPage> {
 
   Widget buildProfile() {
     return FutureBuilder(
-        future: Session.getUser(),
-        builder: (context, snapshot) {
-          final user = snapshot.data;
-          String name = user?.name ?? '';
-          String email = user?.email ?? '';
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  image: const DecorationImage(
-                    image: AssetImage('assets/images/profile.png'),
-                  ),
-                  shape: BoxShape.circle,
-                  border: Border.all(width: 4, color: AppColor.primary),
+      future: Session.getUser(),
+      builder: (context, snapshot) {
+        final user = snapshot.data;
+        String name = user?.name ?? 'Pengguna Kavana';
+        String email = user?.email ?? 'pengguna@example.com';
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 120,
+              height: 120,
+              decoration: BoxDecoration(
+                image: const DecorationImage(
+                  image: AssetImage('assets/images/profile.png'),
+                  fit: BoxFit.cover,
                 ),
+                shape: BoxShape.circle,
+                border: Border.all(width: 4, color: AppColor.primary),
               ),
-              const Gap(16),
-              Text(
-                name,
+            ),
+            const Gap(16),
+            Text(
+              name,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: AppColor.textTitle,
+              ),
+            ),
+            const Gap(4),
+            Text(
+              email,
+              style: const TextStyle(
+                fontSize: 15,
+                color: AppColor.textBody,
+              ),
+            ),
+            const Gap(30),
+            buildMoodVisualization(),
+            const Gap(24),
+            buildSettingsList(),
+            const Gap(30),
+            SizedBox(
+              width: 160,
+              child: ButtonSecondary(
+                onPressed: logout,
+                title: 'Logout',
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget buildMoodVisualization() {
+    final List<Map<String, dynamic>> dailyMoods = [
+      {'day': 'Min', 'mood': 'happy', 'value': 4},
+      {'day': 'Sen', 'mood': 'neutral', 'value': 2},
+      {'day': 'Sel', 'mood': 'sad', 'value': 1},
+      {'day': 'Rab', 'mood': 'happy', 'value': 3},
+      {'day': 'Kam', 'mood': 'excited', 'value': 5},
+      {'day': 'Jum', 'mood': 'neutral', 'value': 2},
+      {'day': 'Sab', 'mood': 'happy', 'value': 4},
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Gap(16),
+          Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Pencapaian Mingguan',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      color: AppColor.textTitle,
+                    ),
+                  ),
+                  const Gap(16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: dailyMoods.map((mood) {
+                      Color barColor;
+                      IconData moodIcon;
+                      if (mood['mood'] == 'happy') {
+                        barColor = Colors.lightGreen;
+                        moodIcon = Icons.sentiment_very_satisfied;
+                      } else if (mood['mood'] == 'sad') {
+                        barColor = Colors.redAccent;
+                        moodIcon = Icons.sentiment_very_dissatisfied;
+                      } else if (mood['mood'] == 'excited') {
+                        barColor = Colors.orangeAccent;
+                        moodIcon = Icons.star;
+                      } else {
+                        barColor = Colors.blueGrey;
+                        moodIcon = Icons.sentiment_neutral;
+                      }
+
+                      return Column(
+                        children: [
+                          Icon(moodIcon, color: barColor, size: 24),
+                          const Gap(8),
+                          Container(
+                            height: mood['value'] * 15.0,
+                            width: 20,
+                            decoration: BoxDecoration(
+                              color: barColor.withOpacity(0.7),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          const Gap(8),
+                          Text(
+                            mood['day'],
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const Gap(24),
+          Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text(
+                    'Kesan dan Masukan Aplikasi',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      color: AppColor.textTitle,
+                    ),
+                  ),
+                  Gap(12),
+                  Text(
+                    'Kesan: Aplikasi Kavana ini sangat membantu saya dalam mengelola berbagai aktivitas dan mood harian. Desainnya yang intuitif membuat pengalaman pengguna menjadi menyenangkan dan efektif.\n\nSaran: Untuk fitur selanjutnya, mungkin bisa ditambahkan opsi personalisasi tema aplikasi atau integrasi dengan kalender eksternal.',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppColor.textBody,
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildSettingsList() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              children: [
+                _buildSettingItem(
+                  icon: Icons.notifications_none_rounded,
+                  title: 'Pengaturan Notifikasi',
+                  onTap: () {
+                    DInfo.dialogConfirmation(
+                      context,
+                      'Info',
+                      'Fitur Notifikasi Akan Datang!',
+                    );
+                  },
+                ),
+                _buildDivider(),
+                _buildSettingItem(
+                  icon: Icons.language_rounded,
+                  title: 'Ganti Bahasa',
+                  onTap: () {
+                    DInfo.dialogConfirmation(
+                      context,
+                      'Info',
+                      'Fitur Ganti Bahasa Akan Datang!',
+                    );
+                  },
+                ),
+                _buildDivider(),
+                _buildSettingItem(
+                  icon: Icons.help_outline_rounded,
+                  title: 'FAQ & Bantuan',
+                  onTap: () {
+                    DInfo.dialogConfirmation(
+                      context,
+                      'Info',
+                      'Halaman FAQ Akan Datang!',
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSettingItem({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        child: Row(
+          children: [
+            Icon(icon, color: AppColor.primary, size: 24),
+            const Gap(16),
+            Expanded(
+              child: Text(
+                title,
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 16,
                   color: AppColor.textTitle,
                 ),
               ),
-              const Gap(4),
-              Text(
-                email,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: AppColor.textBody,
-                ),
-              ),
-              const Gap(40),
-              SizedBox(
-                width: 140,
-                child: ButtonSecondary(
-                  onPressed: logout,
-                  title: 'Logout',
-                ),
-              ),
-            ],
-          );
-        });
+            ),
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 18,
+              color: AppColor.textBody,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Divider(
+        height: 1,
+        color: AppColor.surface,
+      ),
+    );
   }
 
   Widget buildHeader() {
@@ -139,7 +367,7 @@ class _AccountPageState extends State<AccountPage> {
         ),
         const Gap(16),
         const Text(
-          'Account',
+          'Profil Saya',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
