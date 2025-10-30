@@ -8,7 +8,6 @@ import 'package:kavana_app/core/session.dart';
 import 'package:kavana_app/view/controllers/finance/finance_controller.dart';
 import 'package:kavana_app/view/pages/finance/add_savings_page.dart';
 import 'package:kavana_app/view/pages/finance/currency_converter_page.dart';
-import 'package:kavana_app/view/pages/finance/savings_history_page.dart';
 import 'package:kavana_app/view/widget/response_failed.dart';
 
 class FinanceFragment extends StatefulWidget {
@@ -43,10 +42,6 @@ class _FinanceFragmentState extends State<FinanceFragment> {
     );
   }
 
-  void gotoSavingsHistory() {
-    Navigator.pushNamed(context, SavingsHistoryPage.routeName);
-  }
-
   @override
   void initState() {
     refresh();
@@ -70,8 +65,6 @@ class _FinanceFragmentState extends State<FinanceFragment> {
           buildHeader(),
           const Gap(34),
           buildSavingsCard(),
-          const Gap(24),
-          buildQuickActions(),
           const Gap(34),
           buildTodayQuestion(),
           const Gap(34),
@@ -156,6 +149,7 @@ class _FinanceFragmentState extends State<FinanceFragment> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
                   'Total Savings',
@@ -165,18 +159,35 @@ class _FinanceFragmentState extends State<FinanceFragment> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
+                Material(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(20),
+                  child: InkWell(
+                    onTap: gotoCurrencyConverter,
                     borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Text(
-                    'IDR',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      child: const Row(
+                        children: [
+                          Text(
+                            'IDR',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Gap(4),
+                          Icon(
+                            Icons.swap_horiz_rounded,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -199,7 +210,8 @@ class _FinanceFragmentState extends State<FinanceFragment> {
                   child: _buildSavingsInfo(
                     icon: Icons.trending_up,
                     label: 'This Month',
-                    value: 'Rp ${NumberFormat('#,###', 'id_ID').format(state.monthlyTotal)}',
+                    value:
+                        'Rp ${NumberFormat('#,###', 'id_ID').format(state.monthlyTotal)}',
                   ),
                 ),
                 const Gap(16),
@@ -259,63 +271,6 @@ class _FinanceFragmentState extends State<FinanceFragment> {
     );
   }
 
-  Widget buildQuickActions() {
-    return Row(
-      children: [
-        Expanded(
-          child: _buildActionButton(
-            icon: Icons.currency_exchange,
-            label: 'Convert',
-            color: AppColor.dopamine,
-            onTap: gotoCurrencyConverter,
-          ),
-        ),
-        const Gap(12),
-        Expanded(
-          child: _buildActionButton(
-            icon: Icons.history,
-            label: 'History',
-            color: AppColor.serotonin,
-            onTap: gotoSavingsHistory,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildActionButton({
-    required IconData icon,
-    required String label,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return Material(
-      color: color.withOpacity(0.2),
-      borderRadius: BorderRadius.circular(20),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Column(
-            children: [
-              Icon(icon, color: color, size: 28),
-              const Gap(8),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: color,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget buildTodayQuestion() {
     return Container(
       padding: const EdgeInsets.all(24),
@@ -332,13 +287,10 @@ class _FinanceFragmentState extends State<FinanceFragment> {
       ),
       child: Column(
         children: [
-          const Text(
-            '💰',
-            style: TextStyle(fontSize: 48),
-          ),
+          const Text('💰', style: TextStyle(fontSize: 48)),
           const Gap(16),
           const Text(
-            'Apakah hari ini Anda akan menabung?',
+            'Are you going to save today?',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 18,
@@ -348,7 +300,7 @@ class _FinanceFragmentState extends State<FinanceFragment> {
           ),
           const Gap(16),
           const Text(
-            'Mulai kebiasaan baik dengan menabung hari ini',
+            'Saving regularly helps you achieve your financial goals faster.',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
@@ -369,7 +321,7 @@ class _FinanceFragmentState extends State<FinanceFragment> {
                 ),
               ),
               child: const Text(
-                'Mulai Menabung',
+                'Yes, Add Savings',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -389,6 +341,11 @@ class _FinanceFragmentState extends State<FinanceFragment> {
 
       if (statusRequest == StatusRequest.failed) {
         return ResponseFailed(message: state.message);
+      }
+
+      if (state.recentSavings.isEmpty &&
+          statusRequest == StatusRequest.success) {
+        return const ResponseFailed(message: 'No recent savings');
       }
 
       if (state.recentSavings.isEmpty) {
@@ -436,7 +393,8 @@ class _FinanceFragmentState extends State<FinanceFragment> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            DateFormat('EEEE, dd MMM yyyy').format(saving.createdAt),
+                            DateFormat('EEEE, dd MMM yyyy')
+                                .format(saving.createdAt),
                             style: const TextStyle(
                               fontSize: 12,
                               color: AppColor.textBody,

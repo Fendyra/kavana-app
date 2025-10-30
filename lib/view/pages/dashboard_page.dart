@@ -36,12 +36,12 @@ final List<Map<String, dynamic>> menu = [
     'isPage': false,
   },
   {
-    'icon': 'assets/icons/money.png', 
+    'icon': 'assets/icons/wallet.png', 
     'view': const FinanceFragment(),
     'isPage': false,
   },
   {
-    'icon': 'assets/icons/profile_square.png',
+    'icon': 'assets/icons/profile.png',
     'view': null,
     'isPage': true,
   },

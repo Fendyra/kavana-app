@@ -21,11 +21,6 @@ class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
     'USD': {'rate': 0.000063, 'symbol': '\$', 'flag': '🇺🇸', 'name': 'US Dollar'},
     'EUR': {'rate': 0.000059, 'symbol': '€', 'flag': '🇪🇺', 'name': 'Euro'},
     'GBP': {'rate': 0.000051, 'symbol': '£', 'flag': '🇬🇧', 'name': 'Pound Sterling'},
-    'JPY': {'rate': 0.0094, 'symbol': '¥', 'flag': '🇯🇵', 'name': 'Japanese Yen'},
-    'SGD': {'rate': 0.000086, 'symbol': 'S\$', 'flag': '🇸🇬', 'name': 'Singapore Dollar'},
-    'MYR': {'rate': 0.00029, 'symbol': 'RM', 'flag': '🇲🇾', 'name': 'Malaysian Ringgit'},
-    'THB': {'rate': 0.0022, 'symbol': '฿', 'flag': '🇹🇭', 'name': 'Thai Baht'},
-    'CNY': {'rate': 0.00046, 'symbol': '¥', 'flag': '🇨🇳', 'name': 'Chinese Yuan'},
   };
 
   double getConvertedAmount() {
