@@ -128,13 +128,13 @@ class _AccountPageState extends State<AccountPage> {
 
   Widget buildMoodVisualization() {
     final List<Map<String, dynamic>> dailyMoods = [
-      {'day': 'Min', 'mood': 'happy', 'value': 4},
-      {'day': 'Sen', 'mood': 'neutral', 'value': 2},
-      {'day': 'Sel', 'mood': 'sad', 'value': 1},
-      {'day': 'Rab', 'mood': 'happy', 'value': 3},
-      {'day': 'Kam', 'mood': 'excited', 'value': 5},
-      {'day': 'Jum', 'mood': 'neutral', 'value': 2},
-      {'day': 'Sab', 'mood': 'happy', 'value': 4},
+      {'day': 'Sun', 'mood': 'happy', 'value': 4},
+      {'day': 'Mon', 'mood': 'neutral', 'value': 2},
+      {'day': 'Tue', 'mood': 'sad', 'value': 1},
+      {'day': 'Web', 'mood': 'happy', 'value': 3},
+      {'day': 'Thu', 'mood': 'excited', 'value': 5},
+      {'day': 'Fri', 'mood': 'neutral', 'value': 2},
+      {'day': 'Sat', 'mood': 'happy', 'value': 4},
     ];
 
     return Padding(
@@ -142,6 +142,14 @@ class _AccountPageState extends State<AccountPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const Text(
+            'Kavana Journey',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: AppColor.textTitle,
+            ),
+          ),
           const Gap(16),
           Card(
             elevation: 4,
@@ -154,7 +162,7 @@ class _AccountPageState extends State<AccountPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Pencapaian Mingguan',
+                    'Weekly Achievement',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -219,7 +227,7 @@ class _AccountPageState extends State<AccountPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
-                    'Kesan dan Masukan Aplikasi',
+                    'suggestions and impressions',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -228,7 +236,7 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                   Gap(12),
                   Text(
-                    'Kesan: Aplikasi Kavana ini sangat membantu saya dalam mengelola berbagai aktivitas dan mood harian. Desainnya yang intuitif membuat pengalaman pengguna menjadi menyenangkan dan efektif.\n\nSaran: Untuk fitur selanjutnya, mungkin bisa ditambahkan opsi personalisasi tema aplikasi atau integrasi dengan kalender eksternal.',
+                    'Impression: Aplikasi Kavana ini sangat membantu saya dalam mengelola berbagai aktivitas dan mood harian. Desainnya yang intuitif membuat pengalaman pengguna menjadi menyenangkan dan efektif.\n\nSuggestion: Untuk fitur selanjutnya, mungkin bisa ditambahkan opsi personalisasi tema aplikasi atau integrasi dengan kalender eksternal.',
                     style: TextStyle(
                       fontSize: 14,
                       color: AppColor.textBody,
@@ -250,6 +258,15 @@ class _AccountPageState extends State<AccountPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const Text(
+            'Setttings',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: AppColor.textTitle,
+            ),
+          ),
+          const Gap(16),
           Card(
             elevation: 4,
             shape: RoundedRectangleBorder(
@@ -259,36 +276,36 @@ class _AccountPageState extends State<AccountPage> {
               children: [
                 _buildSettingItem(
                   icon: Icons.notifications_none_rounded,
-                  title: 'Pengaturan Notifikasi',
+                  title: 'Notification Settings',
                   onTap: () {
                     DInfo.dialogConfirmation(
                       context,
                       'Info',
-                      'Fitur Notifikasi Akan Datang!',
+                      'Notification Feature Coming!',
                     );
                   },
                 ),
                 _buildDivider(),
                 _buildSettingItem(
                   icon: Icons.language_rounded,
-                  title: 'Ganti Bahasa',
+                  title: 'Laguage Preferences',
                   onTap: () {
                     DInfo.dialogConfirmation(
                       context,
                       'Info',
-                      'Fitur Ganti Bahasa Akan Datang!',
+                      'Language Preferences Coming!',
                     );
                   },
                 ),
                 _buildDivider(),
                 _buildSettingItem(
                   icon: Icons.help_outline_rounded,
-                  title: 'FAQ & Bantuan',
+                  title: 'FAQ & Help',
                   onTap: () {
                     DInfo.dialogConfirmation(
                       context,
                       'Info',
-                      'Halaman FAQ Akan Datang!',
+                      'FAQ & Help Coming!',
                     );
                   },
                 ),
