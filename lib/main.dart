@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kavana_app/common/app_color.dart';
-import 'package:kavana_app/core/session.dart';
 import 'package:kavana_app/data/models/solution_model.dart';
 import 'package:kavana_app/view/pages/account_page.dart';
 import 'package:kavana_app/view/pages/agenda/add_agenda_page.dart';
@@ -21,6 +20,7 @@ import 'package:kavana_app/view/pages/solution/update_solution_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:kavana_app/view/pages/splash_page.dart';
 
 
 void main() async { 
@@ -61,19 +61,9 @@ class MainApp extends StatelessWidget {
         textTheme: GoogleFonts.interTextTheme(),
         shadowColor: AppColor.primary.withOpacity(0.3),
       ),
-      home: FutureBuilder(
-        future: Session.getUser(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            );
-          }
-          if (snapshot.data == null) return const LoginPage();
-          return const DashboardPage();
-        },
-      ),
+      home: const SplashPage(),
       routes: {
+        SplashPage.routeName: (context) => const SplashPage(),
         LoginPage.routeName: (context) => const LoginPage(),
         DashboardPage.routeName: (context) => const DashboardPage(),
         RegisterPage.routeName: (context) => const RegisterPage(),

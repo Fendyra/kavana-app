@@ -24,14 +24,6 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
   final amountController = TextEditingController();
   final noteController = TextEditingController();
 
-  final List<int> quickAmounts = [
-    10000,
-    20000,
-    50000,
-    100000,
-    200000,
-    500000,
-  ];
 
   void selectQuickAmount(int amount) {
     amountController.text = amount.toString();
@@ -95,8 +87,6 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
               children: [
                 const Gap(20),
                 buildAmountInput(),
-                const Gap(24),
-                buildQuickAmounts(),
                 const Gap(30),
                 buildNoteInput(),
                 const Gap(40),
@@ -205,51 +195,6 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
     );
   }
 
-  Widget buildQuickAmounts() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Quick Select',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-            color: AppColor.textBody,
-          ),
-        ),
-        const Gap(12),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: quickAmounts.map((amount) {
-            return InkWell(
-              onTap: () => selectQuickAmount(amount),
-              borderRadius: BorderRadius.circular(12),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 10,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: AppColor.secondary.withOpacity(0.3),
-                  border: Border.all(color: AppColor.secondary, width: 1),
-                ),
-                child: Text(
-                  'Rp ${amount ~/ 1000}K',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: AppColor.primary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            );
-          }).toList(),
-        ),
-      ],
-    );
-  }
 
   Widget buildNoteInput() {
     return Column(
