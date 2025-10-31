@@ -20,8 +20,8 @@ class _AccountPageState extends State<AccountPage> {
   void logout() async {
     bool? yes = await DInfo.dialogConfirmation(
       context,
-      'Logout',
-      'Yes to confirm',
+      'Keluar Akun',
+      'Apakah kamu yakin ingin keluar?',
     );
     if (yes ?? false) {
       Session.removeUser();
@@ -117,7 +117,7 @@ class _AccountPageState extends State<AccountPage> {
               width: 160,
               child: ButtonSecondary(
                 onPressed: logout,
-                title: 'Logout',
+                title: 'Keluar',
               ),
             ),
           ],
@@ -128,13 +128,13 @@ class _AccountPageState extends State<AccountPage> {
 
   Widget buildMoodVisualization() {
     final List<Map<String, dynamic>> dailyMoods = [
-      {'day': 'Sun', 'mood': 'happy', 'value': 4},
-      {'day': 'Mon', 'mood': 'neutral', 'value': 2},
-      {'day': 'Tue', 'mood': 'sad', 'value': 1},
-      {'day': 'Web', 'mood': 'happy', 'value': 3},
-      {'day': 'Thu', 'mood': 'excited', 'value': 5},
-      {'day': 'Fri', 'mood': 'neutral', 'value': 2},
-      {'day': 'Sat', 'mood': 'happy', 'value': 4},
+      {'day': 'Min', 'mood': 'happy', 'value': 4},
+      {'day': 'Sen', 'mood': 'neutral', 'value': 2},
+      {'day': 'Sel', 'mood': 'sad', 'value': 1},
+      {'day': 'Rab', 'mood': 'happy', 'value': 3},
+      {'day': 'Kam', 'mood': 'excited', 'value': 5},
+      {'day': 'Jum', 'mood': 'neutral', 'value': 2},
+      {'day': 'Sab', 'mood': 'happy', 'value': 4},
     ];
 
     return Padding(
@@ -143,7 +143,7 @@ class _AccountPageState extends State<AccountPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Kavana Journey',
+            'Perjalanan Kavana',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
@@ -161,8 +161,8 @@ class _AccountPageState extends State<AccountPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Weekly Achievement',
+                  const Text(
+                    'Pencapaian Mingguan',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -221,13 +221,13 @@ class _AccountPageState extends State<AccountPage> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
+            child: const Padding(
+              padding: EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
-                    'suggestions and impressions',
+                    'Kesan & Saran',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -236,7 +236,7 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                   Gap(12),
                   Text(
-                    'Impression: Aplikasi Kavana ini sangat membantu saya dalam mengelola berbagai aktivitas dan mood harian. Desainnya yang intuitif membuat pengalaman pengguna menjadi menyenangkan dan efektif.\n\nSuggestion: Untuk fitur selanjutnya, mungkin bisa ditambahkan opsi personalisasi tema aplikasi atau integrasi dengan kalender eksternal.',
+                    'Kesan: Aplikasi Kavana membantu saya mengelola aktivitas dan suasana hati harian. Desainnya sederhana dan menyenangkan digunakan.\n\nSaran: Akan lebih baik jika ditambahkan opsi tema personal dan integrasi kalender agar lebih fleksibel.',
                     style: TextStyle(
                       fontSize: 14,
                       color: AppColor.textBody,
@@ -259,7 +259,7 @@ class _AccountPageState extends State<AccountPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Setttings',
+            'Pengaturan',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
@@ -276,36 +276,36 @@ class _AccountPageState extends State<AccountPage> {
               children: [
                 _buildSettingItem(
                   icon: Icons.notifications_none_rounded,
-                  title: 'Notification Settings',
+                  title: 'Notifikasi',
                   onTap: () {
                     DInfo.dialogConfirmation(
                       context,
                       'Info',
-                      'Notification Feature Coming!',
+                      'Fitur notifikasi akan segera hadir!',
                     );
                   },
                 ),
                 _buildDivider(),
                 _buildSettingItem(
                   icon: Icons.language_rounded,
-                  title: 'Laguage Preferences',
+                  title: 'Bahasa Aplikasi',
                   onTap: () {
                     DInfo.dialogConfirmation(
                       context,
                       'Info',
-                      'Language Preferences Coming!',
+                      'Pengaturan bahasa akan segera hadir!',
                     );
                   },
                 ),
                 _buildDivider(),
                 _buildSettingItem(
                   icon: Icons.help_outline_rounded,
-                  title: 'FAQ & Help',
+                  title: 'Bantuan & FAQ',
                   onTap: () {
                     DInfo.dialogConfirmation(
                       context,
                       'Info',
-                      'FAQ & Help Coming!',
+                      'Fitur bantuan akan segera hadir!',
                     );
                   },
                 ),
@@ -384,7 +384,7 @@ class _AccountPageState extends State<AccountPage> {
         ),
         const Gap(16),
         const Text(
-          'Profil Saya',
+          'Akun Saya',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
