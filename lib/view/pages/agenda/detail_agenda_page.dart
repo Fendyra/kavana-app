@@ -308,9 +308,7 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
     );
   }
 
-  // WIDGET BARU UNTUK MENAMPILKAN INFO LOKASI
   Widget buildLocationInfo(AgendaModel agenda) {
-    // Tampilkan hanya jika ada nama lokasi
     if (agenda.locationName == null || agenda.locationName!.isEmpty) {
       return const SizedBox();
     }
@@ -326,7 +324,7 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Location',
+            'Lokasi',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -377,7 +375,7 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Description',
+            'Deskripsi',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -407,7 +405,7 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
         }
         return ButtonDelete(
           onPressed: delete,
-          title: 'Delete',
+          title: 'Hapus Agenda',
         );
       }),
     );
