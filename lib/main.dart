@@ -20,11 +20,15 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:kavana_app/view/pages/splash_page.dart';
+import 'package:kavana_app/services/notification_service.dart';
 
 
+final NotificationService notificationService = NotificationService();
 void main() async { 
   WidgetsFlutterBinding.ensureInitialized();
   await _initializeTimeZones(); 
+  await notificationService.initialize();
+  await notificationService.scheduleAllDailyReminders();
   runApp(const MainApp());
 }
 
