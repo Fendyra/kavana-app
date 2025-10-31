@@ -104,7 +104,7 @@ class _AllAgendaPageState extends State<AllAgendaPage> {
             ),
           ),
           const Text(
-            'All Agenda',
+            'Semua Agenda',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,

@@ -106,7 +106,7 @@ class _ChooseMoodPageState extends State<ChooseMoodPage> {
           const Gap(60),
           Center(
             child: Text(
-              '${user?.name ?? ''}, what is your mood\nnow?',
+              '${user?.name ?? ''}, Apa Mood Kamu\nSekarang?',
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
@@ -170,7 +170,7 @@ class _ChooseMoodPageState extends State<ChooseMoodPage> {
         width: double.infinity,
         child: ButtonPrimary(
           onPressed: choose,
-          title: 'Choose',
+          title: 'Pilih',
         ),
       ),
     );

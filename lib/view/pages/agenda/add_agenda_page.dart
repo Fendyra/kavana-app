@@ -241,272 +241,271 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
     );
   }
 
-  Widget buildHeader() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const ImageIcon(
-              AssetImage('assets/icons/arrow_back.png'),
-              size: 24,
-              color: AppColor.primary,
-            ),
-          ),
-          const Text(
-            'Add Agenda',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-              color: AppColor.primary,
-            ),
-          ),
-          const IconButton(
-            onPressed: null,
-            icon: ImageIcon(
-              AssetImage('assets/icons/add_circle.png'),
-              size: 24,
-              color: Colors.transparent,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildTitleInput() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+Widget buildHeader() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 10),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
-          'Title',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-            color: AppColor.textTitle,
-          ),
-        ),
-        const Gap(12),
-        CustomInput(
-          controller: titleController,
-          hint: 'Holiday',
-          maxLines: 1,
-        ),
-      ],
-    );
-  }
-
-  Widget buildCategoryInput() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Category',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-            color: AppColor.textTitle,
-          ),
-        ),
-        const Gap(12),
-        DropdownButtonFormField<String>(
-          value: categoryController.text,
-          items: Constants.agendaCategories.map(
-            (e) {
-              return DropdownMenuItem<String>(
-                value: e,
-                child: Text(
-                  e,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    color: AppColor.textBody,
-                  ),
-                ),
-              );
-            },
-          ).toList(),
-          onChanged: (value) {
-            if (value == null) return;
-            categoryController.text = value;
-          },
+        IconButton(
+          onPressed: () => Navigator.pop(context),
           icon: const ImageIcon(
-            AssetImage('assets/icons/arrow_down_circle.png'),
+            AssetImage('assets/icons/arrow_back.png'),
             size: 24,
             color: AppColor.primary,
           ),
-          decoration: InputDecoration(
-            fillColor: Colors.white,
-            filled: true,
-            isDense: true,
-            contentPadding: const EdgeInsets.all(20),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: const BorderSide(color: AppColor.primary, width: 2),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: const BorderSide(color: AppColor.primary, width: 2),
-            ),
-          ),
         ),
-      ],
-    );
-  }
-
-  Widget buildStartEventInput() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
         const Text(
-          'Start Event',
+          'Tambah Agenda',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
-            color: AppColor.textTitle,
+            color: AppColor.primary,
           ),
         ),
-        const Gap(12),
-        CustomInput(
-          controller: startEventController,
-          hint: '2024-08-30 07:00',
-          maxLines: 1,
-          suffixIcon: 'assets/icons/calendar.png',
-          suffixOnTap: () => chooseDateTime(startEventController),
+        const IconButton(
+          onPressed: null,
+          icon: ImageIcon(
+            AssetImage('assets/icons/add_circle.png'),
+            size: 24,
+            color: Colors.transparent,
+          ),
         ),
       ],
-    );
-  }
+    ),
+  );
+}
 
-  Widget buildEndEventInput() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'End Event',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-            color: AppColor.textTitle,
+Widget buildTitleInput() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(
+        'Judul Agenda',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          color: AppColor.textTitle,
+        ),
+      ),
+      const Gap(12),
+      CustomInput(
+        controller: titleController,
+        hint: 'Contoh: Liburan Akhir Pekan',
+        maxLines: 1,
+      ),
+    ],
+  );
+}
+
+Widget buildCategoryInput() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(
+        'Kategori',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          color: AppColor.textTitle,
+        ),
+      ),
+      const Gap(12),
+      DropdownButtonFormField<String>(
+        value: categoryController.text,
+        items: Constants.agendaCategories.map(
+          (e) {
+            return DropdownMenuItem<String>(
+              value: e,
+              child: Text(
+                e,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: AppColor.textBody,
+                ),
+              ),
+            );
+          },
+        ).toList(),
+        onChanged: (value) {
+          if (value == null) return;
+          categoryController.text = value;
+        },
+        icon: const ImageIcon(
+          AssetImage('assets/icons/arrow_down_circle.png'),
+          size: 24,
+          color: AppColor.primary,
+        ),
+        decoration: InputDecoration(
+          fillColor: Colors.white,
+          filled: true,
+          isDense: true,
+          contentPadding: const EdgeInsets.all(20),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(color: AppColor.primary, width: 2),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(color: AppColor.primary, width: 2),
           ),
         ),
-        const Gap(12),
-        CustomInput(
-          controller: endEventController,
-          hint: '2024-08-30 07:00',
-          maxLines: 1,
-          suffixIcon: 'assets/icons/calendar.png',
-          suffixOnTap: () => chooseDateTime(endEventController),
-        ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
 
-  // WIDGET BARU UNTUK INPUT LOKASI
-  Widget buildLocationInput() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Location (Optional)',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-            color: AppColor.textTitle,
-          ),
+Widget buildStartEventInput() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(
+        'Waktu Mulai',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          color: AppColor.textTitle,
         ),
-        const Gap(12),
-        TextFormField(
-          controller: locationController,
-          style: const TextStyle(
+      ),
+      const Gap(12),
+      CustomInput(
+        controller: startEventController,
+        hint: 'Pilih tanggal & jam mulai',
+        maxLines: 1,
+        suffixIcon: 'assets/icons/calendar.png',
+        suffixOnTap: () => chooseDateTime(startEventController),
+      ),
+    ],
+  );
+}
+
+Widget buildEndEventInput() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(
+        'Waktu Selesai',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          color: AppColor.textTitle,
+        ),
+      ),
+      const Gap(12),
+      CustomInput(
+        controller: endEventController,
+        hint: 'Pilih tanggal & jam selesai',
+        maxLines: 1,
+        suffixIcon: 'assets/icons/calendar.png',
+        suffixOnTap: () => chooseDateTime(endEventController),
+      ),
+    ],
+  );
+}
+
+Widget buildLocationInput() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(
+        'Lokasi (Opsional)',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          color: AppColor.textTitle,
+        ),
+      ),
+      const Gap(12),
+      TextFormField(
+        controller: locationController,
+        style: const TextStyle(
+          fontWeight: FontWeight.normal,
+          fontSize: 14,
+          color: AppColor.textBody,
+        ),
+        maxLines: 2,
+        decoration: InputDecoration(
+          fillColor: Colors.white,
+          filled: true,
+          suffixIcon: _isGettingLocation
+              ? const UnconstrainedBox(
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColor.primary,
+                    ),
+                  ),
+                )
+              : GestureDetector(
+                  onTap: _getCurrentLocation,
+                  child: const UnconstrainedBox(
+                    alignment: Alignment(-0.5, 0),
+                    child: Icon(
+                      Icons.my_location,
+                      size: 24,
+                      color: AppColor.primary,
+                    ),
+                  ),
+                ),
+          hintText: 'Contoh: Jl. Merdeka No. 123, Bandung',
+          isDense: true,
+          contentPadding: const EdgeInsets.all(20),
+          hintStyle: const TextStyle(
             fontWeight: FontWeight.normal,
             fontSize: 14,
             color: AppColor.textBody,
           ),
-          maxLines: 2,
-          decoration: InputDecoration(
-            fillColor: Colors.white,
-            filled: true,
-            suffixIcon: _isGettingLocation
-                ? const UnconstrainedBox(
-                    child: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: AppColor.primary,
-                      ),
-                    ),
-                  )
-                : GestureDetector(
-                    onTap: _getCurrentLocation,
-                    child: const UnconstrainedBox(
-                      alignment: Alignment(-0.5, 0),
-                      child: Icon(
-                        Icons.my_location,
-                        size: 24,
-                        color: AppColor.primary,
-                      ),
-                    ),
-                  ),
-            hintText: 'e.g., 123 Main St, City, Country',
-            isDense: true,
-            contentPadding: const EdgeInsets.all(20),
-            hintStyle: const TextStyle(
-              fontWeight: FontWeight.normal,
-              fontSize: 14,
-              color: AppColor.textBody,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: const BorderSide(color: AppColor.primary, width: 2),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: const BorderSide(color: AppColor.primary, width: 2),
-            ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(color: AppColor.primary, width: 2),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(color: AppColor.primary, width: 2),
           ),
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
 
-  Widget buildDescriptionInput() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Description',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-            color: AppColor.textTitle,
-          ),
+Widget buildDescriptionInput() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(
+        'Deskripsi',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          color: AppColor.textTitle,
         ),
-        const Gap(12),
-        CustomInput(
-          controller: descriptionController,
-          hint: 'Describe your event here...',
-          minLines: 2,
-          maxLines: 5,
-        ),
-      ],
-    );
-  }
+      ),
+      const Gap(12),
+      CustomInput(
+        controller: descriptionController,
+        hint: 'Tuliskan detail kegiatan di sini...',
+        minLines: 2,
+        maxLines: 5,
+      ),
+    ],
+  );
+}
 
-  Widget buildAddButton() {
-    return Obx(() {
-      final state = addAgendaController.state;
-      final statusRequest = state.statusRequest;
-      if (statusRequest == StatusRequest.loading) {
-        return const Center(child: CircularProgressIndicator());
-      }
-      return ButtonPrimary(
-        onPressed: addNew,
-        title: 'Add New',
-      );
-    });
-  }
+Widget buildAddButton() {
+  return Obx(() {
+    final state = addAgendaController.state;
+    final statusRequest = state.statusRequest;
+    if (statusRequest == StatusRequest.loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    return ButtonPrimary(
+      onPressed: addNew,
+      title: 'Simpan Agenda',
+    );
+  });
+}
 }
