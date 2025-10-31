@@ -80,7 +80,7 @@ class _FinanceFragmentState extends State<FinanceFragment> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Finance Management',
+          'Manajemen Keuangan',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 22,
@@ -89,7 +89,7 @@ class _FinanceFragmentState extends State<FinanceFragment> {
         ),
         Gap(9),
         Text(
-          'Manage your savings wisely',
+          'Kelola tabunganmu dengan bijak',
           style: TextStyle(
             fontSize: 14,
             color: AppColor.textBody,
@@ -116,7 +116,8 @@ class _FinanceFragmentState extends State<FinanceFragment> {
               end: Alignment.bottomRight,
             ),
           ),
-          child: const Center(child: CircularProgressIndicator(color: Colors.white)),
+          child:
+              const Center(child: CircularProgressIndicator(color: Colors.white)),
         );
       }
 
@@ -152,7 +153,7 @@ class _FinanceFragmentState extends State<FinanceFragment> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Total Savings',
+                  'Total Tabungan',
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.white70,
@@ -209,7 +210,7 @@ class _FinanceFragmentState extends State<FinanceFragment> {
                 Expanded(
                   child: _buildSavingsInfo(
                     icon: Icons.trending_up,
-                    label: 'This Month',
+                    label: 'Bulan Ini',
                     value:
                         'Rp ${NumberFormat('#,###', 'id_ID').format(state.monthlyTotal)}',
                   ),
@@ -218,8 +219,8 @@ class _FinanceFragmentState extends State<FinanceFragment> {
                 Expanded(
                   child: _buildSavingsInfo(
                     icon: Icons.calendar_today,
-                    label: 'Total Days',
-                    value: '${state.savingsDays} days',
+                    label: 'Total Hari',
+                    value: '${state.savingsDays} hari',
                   ),
                 ),
               ],
@@ -290,7 +291,7 @@ class _FinanceFragmentState extends State<FinanceFragment> {
           const Text('💰', style: TextStyle(fontSize: 48)),
           const Gap(16),
           const Text(
-            'Are you going to save today?',
+            'Apakah kamu akan menabung hari ini?',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 18,
@@ -300,7 +301,7 @@ class _FinanceFragmentState extends State<FinanceFragment> {
           ),
           const Gap(16),
           const Text(
-            'Saving regularly helps you achieve your financial goals faster.',
+            'Menabung secara rutin membantu kamu mencapai tujuan keuangan lebih cepat.',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
@@ -321,7 +322,7 @@ class _FinanceFragmentState extends State<FinanceFragment> {
                 ),
               ),
               child: const Text(
-                'Yes, Add Savings',
+                'Ya, Tambahkan Tabungan',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -345,7 +346,7 @@ class _FinanceFragmentState extends State<FinanceFragment> {
 
       if (state.recentSavings.isEmpty &&
           statusRequest == StatusRequest.success) {
-        return const ResponseFailed(message: 'No recent savings');
+        return const ResponseFailed(message: 'Belum ada tabungan terbaru');
       }
 
       if (state.recentSavings.isEmpty) {
@@ -362,7 +363,7 @@ class _FinanceFragmentState extends State<FinanceFragment> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Recent Savings',
+              'Riwayat Tabungan Terbaru',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -401,7 +402,9 @@ class _FinanceFragmentState extends State<FinanceFragment> {
                             ),
                           ),
                           Text(
-                            saving.note.isEmpty ? 'Savings' : saving.note,
+                            saving.note.isEmpty
+                                ? 'Tabungan'
+                                : saving.note,
                             style: const TextStyle(
                               fontSize: 14,
                               color: AppColor.textTitle,
