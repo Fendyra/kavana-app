@@ -71,7 +71,7 @@ class _SavingsHistoryPageState extends State<SavingsHistoryPage> {
             ),
           ),
           const Text(
-            'Savings History',
+            'Riwayat Tabungan',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -111,12 +111,11 @@ class _SavingsHistoryPageState extends State<SavingsHistoryPage> {
       final savings = state.savings;
       if (savings.isEmpty) {
         return const ResponseFailed(
-          message: 'No savings history yet',
+          message: 'Belum ada riwayat tabungan',
           margin: EdgeInsets.all(20),
         );
       }
 
-      // Group by date
       final Map<String, List<SavingsModel>> groupedSavings = {};
       for (var saving in savings) {
         final dateKey = DateFormat('yyyy-MM-dd').format(saving.createdAt);
@@ -150,7 +149,7 @@ class _SavingsHistoryPageState extends State<SavingsHistoryPage> {
                   children: [
                     Expanded(
                       child: Text(
-                        DateFormat('EEEE, dd MMMM yyyy').format(date),
+                        DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(date),
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -207,7 +206,7 @@ class _SavingsHistoryPageState extends State<SavingsHistoryPage> {
                             const Gap(4),
                             Text(
                               saving.note.isEmpty
-                                  ? 'Daily Savings'
+                                  ? 'Tabungan Harian'
                                   : saving.note,
                               style: const TextStyle(
                                 fontSize: 14,

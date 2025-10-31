@@ -39,7 +39,6 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
   void addItemReference() {
     final item = referenceController.text;
     if (item == '') return;
-
     references.add(item);
     referenceController.clear();
     FocusManager.instance.primaryFocus?.unfocus();
@@ -55,17 +54,15 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
     final solution = solutionController.text;
 
     if (summary == '') {
-      Info.failed('Summary must be filled');
+      Info.failed('Ringkasan harus diisi');
       return;
     }
-
     if (problem == '') {
-      Info.failed('Problem must be filled');
+      Info.failed('Masalah harus diisi');
       return;
     }
-
     if (solution == '') {
-      Info.failed('Solution must be filled');
+      Info.failed('Solusi harus diisi');
       return;
     }
 
@@ -80,14 +77,14 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
       reference: List.from(references),
       createdAt: widget.solution.createdAt,
     );
+
     final state = await updateSolutionController.executeRequest(solutionModel);
     if (state.statusRequest == StatusRequest.failed) {
       Info.failed(state.message);
       return;
     }
-
     if (state.statusRequest == StatusRequest.success) {
-      Info.success(state.message);
+      Info.success('Solusi berhasil diperbarui');
       findSolutionController.fetchData(userId);
       if (mounted) Navigator.pop(context);
       return;
@@ -97,8 +94,8 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
   void delete() async {
     final yes = await DInfo.dialogConfirmation(
       context,
-      'Delete',
-      'Click yes to confirm delete',
+      'Hapus Solusi',
+      'Tekan "Ya" untuk menghapus solusi ini.',
     );
     bool clickYes = yes ?? false;
     if (!clickYes) return;
@@ -112,9 +109,8 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
       Info.failed(state.message);
       return;
     }
-
     if (state.statusRequest == StatusRequest.success) {
-      Info.success(state.message);
+      Info.success('Solusi berhasil dihapus');
       findSolutionController.fetchData(userId);
       if (mounted) Navigator.pop(context);
       return;
@@ -158,7 +154,7 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
                 const Gap(20),
                 buildReference(),
                 const Gap(40),
-                buildAddButton(),
+                buildUpdateButton(),
                 const Gap(20),
                 buildDeleteButton(),
                 const Gap(30),
@@ -185,7 +181,7 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
             ),
           ),
           const Text(
-            'Update Solution',
+            'Edit Solusi',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -210,7 +206,7 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Summary',
+          'Ringkasan',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -220,7 +216,7 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
         const Gap(12),
         CustomInput(
           controller: summaryController,
-          hint: 'Input Summary...',
+          hint: 'Tulis ringkasan singkat...',
           minLines: 3,
           maxLines: 5,
         ),
@@ -233,7 +229,7 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Problem',
+          'Masalah',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -243,7 +239,7 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
         const Gap(12),
         CustomInput(
           controller: problemController,
-          hint: 'Input Problem...',
+          hint: 'Tuliskan permasalahan...',
           maxLines: 1,
         ),
       ],
@@ -255,7 +251,7 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Solution',
+          'Solusi',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -265,7 +261,7 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
         const Gap(12),
         CustomInput(
           controller: solutionController,
-          hint: 'Input Solution...',
+          hint: 'Tuliskan solusi yang kamu temukan...',
           minLines: 2,
           maxLines: 3,
         ),
@@ -278,7 +274,7 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Reference',
+          'Referensi',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -288,7 +284,7 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
         const Gap(12),
         CustomInput(
           controller: referenceController,
-          hint: 'Instagram: @author...',
+          hint: 'Contoh: Instagram @penulis...',
           maxLines: 1,
           suffixIcon: 'assets/icons/add_circle.png',
           suffixOnTap: addItemReference,
@@ -341,28 +337,26 @@ class _UpdateSolutionPageState extends State<UpdateSolutionPage> {
     );
   }
 
-  Widget buildAddButton() {
+  Widget buildUpdateButton() {
     return Obx(() {
-      if (updateSolutionController.state.statusRequest ==
-          StatusRequest.loading) {
+      if (updateSolutionController.state.statusRequest == StatusRequest.loading) {
         return const Center(child: CircularProgressIndicator());
       }
       return ButtonPrimary(
         onPressed: updateChanges,
-        title: 'Update Changes',
+        title: 'Simpan Perubahan',
       );
     });
   }
 
   Widget buildDeleteButton() {
     return Obx(() {
-      if (deleteSolutionController.state.statusRequest ==
-          StatusRequest.loading) {
+      if (deleteSolutionController.state.statusRequest == StatusRequest.loading) {
         return const Center(child: CircularProgressIndicator());
       }
       return ButtonDelete(
         onPressed: delete,
-        title: 'Delete',
+        title: 'Hapus Solusi',
       );
     });
   }

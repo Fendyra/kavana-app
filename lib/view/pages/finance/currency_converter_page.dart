@@ -16,11 +16,10 @@ class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
   late double totalSavings;
   String selectedCurrency = 'USD';
 
-  // Exchange rates (you can update these with real API)
   final Map<String, Map<String, dynamic>> exchangeRates = {
-    'USD': {'rate': 0.000063, 'symbol': '\$', 'flag': '🇺🇸', 'name': 'US Dollar'},
+    'USD': {'rate': 0.000063, 'symbol': '\$', 'flag': '🇺🇸', 'name': 'Dolar Amerika'},
     'EUR': {'rate': 0.000059, 'symbol': '€', 'flag': '🇪🇺', 'name': 'Euro'},
-    'GBP': {'rate': 0.000051, 'symbol': '£', 'flag': '🇬🇧', 'name': 'Pound Sterling'},
+    'GBP': {'rate': 0.000051, 'symbol': '£', 'flag': '🇬🇧', 'name': 'Poundsterling'},
   };
 
   double getConvertedAmount() {
@@ -75,7 +74,7 @@ class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
             ),
           ),
           const Text(
-            'Currency Converter',
+            'Konverter Mata Uang',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -117,17 +116,11 @@ class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
         children: [
           Row(
             children: [
-              const Text(
-                '🇮🇩',
-                style: TextStyle(fontSize: 32),
-              ),
+              const Text('🇮🇩', style: TextStyle(fontSize: 32)),
               const Gap(12),
               const Text(
-                'Indonesian Rupiah',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white70,
-                ),
+                'Rupiah Indonesia',
+                style: TextStyle(fontSize: 14, color: Colors.white70),
               ),
             ],
           ),
@@ -180,17 +173,11 @@ class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
         children: [
           Row(
             children: [
-              Text(
-                flag,
-                style: const TextStyle(fontSize: 32),
-              ),
+              Text(flag, style: const TextStyle(fontSize: 32)),
               const Gap(12),
               Text(
                 name,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: AppColor.textBody,
-                ),
+                style: const TextStyle(fontSize: 14, color: AppColor.textBody),
               ),
             ],
           ),
@@ -213,7 +200,7 @@ class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Select Currency',
+          'Pilih Mata Uang',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -247,10 +234,7 @@ class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
               ),
               child: Row(
                 children: [
-                  Text(
-                    data['flag'],
-                    style: const TextStyle(fontSize: 32),
-                  ),
+                  Text(data['flag'], style: const TextStyle(fontSize: 32)),
                   const Gap(16),
                   Expanded(
                     child: Column(

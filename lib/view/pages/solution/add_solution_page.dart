@@ -34,7 +34,6 @@ class _AddSolutionPageState extends State<AddSolutionPage> {
   void addItemReference() {
     final item = referenceController.text;
     if (item == '') return;
-
     references.add(item);
     referenceController.clear();
     FocusManager.instance.primaryFocus?.unfocus();
@@ -50,17 +49,15 @@ class _AddSolutionPageState extends State<AddSolutionPage> {
     final solution = solutionController.text;
 
     if (summary == '') {
-      Info.failed('Summary must be filled');
+      Info.failed('Ringkasan harus diisi');
       return;
     }
-
     if (problem == '') {
-      Info.failed('Problem must be filled');
+      Info.failed('Masalah harus diisi');
       return;
     }
-
     if (solution == '') {
-      Info.failed('Solution must be filled');
+      Info.failed('Solusi harus diisi');
       return;
     }
 
@@ -75,12 +72,12 @@ class _AddSolutionPageState extends State<AddSolutionPage> {
       reference: List.from(references),
       createdAt: DateTime.now(),
     );
+
     final state = await addSolutionController.executeRequest(solutionModel);
     if (state.statusRequest == StatusRequest.failed) {
       Info.failed(state.message);
       return;
     }
-
     if (state.statusRequest == StatusRequest.success) {
       Info.success(state.message);
       findSolutionController.fetchData(userId);
@@ -141,7 +138,7 @@ class _AddSolutionPageState extends State<AddSolutionPage> {
             ),
           ),
           const Text(
-            'Add Solution',
+            'Tambah Solusi',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -166,7 +163,7 @@ class _AddSolutionPageState extends State<AddSolutionPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Summary',
+          'Ringkasan',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -176,7 +173,7 @@ class _AddSolutionPageState extends State<AddSolutionPage> {
         const Gap(12),
         CustomInput(
           controller: summaryController,
-          hint: 'Input Summary...',
+          hint: 'Tulis ringkasan singkat...',
           minLines: 3,
           maxLines: 5,
         ),
@@ -189,7 +186,7 @@ class _AddSolutionPageState extends State<AddSolutionPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Problem',
+          'Masalah',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -199,7 +196,7 @@ class _AddSolutionPageState extends State<AddSolutionPage> {
         const Gap(12),
         CustomInput(
           controller: problemController,
-          hint: 'Input Problem...',
+          hint: 'Tuliskan permasalahan...',
           maxLines: 1,
         ),
       ],
@@ -211,7 +208,7 @@ class _AddSolutionPageState extends State<AddSolutionPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Solution',
+          'Solusi',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -221,7 +218,7 @@ class _AddSolutionPageState extends State<AddSolutionPage> {
         const Gap(12),
         CustomInput(
           controller: solutionController,
-          hint: 'Input Solution...',
+          hint: 'Tuliskan solusi yang kamu temukan...',
           minLines: 2,
           maxLines: 3,
         ),
@@ -234,7 +231,7 @@ class _AddSolutionPageState extends State<AddSolutionPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Reference',
+          'Referensi',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -244,7 +241,7 @@ class _AddSolutionPageState extends State<AddSolutionPage> {
         const Gap(12),
         CustomInput(
           controller: referenceController,
-          hint: 'Instagram: @author...',
+          hint: 'Contoh: Instagram @penulis...',
           maxLines: 1,
           suffixIcon: 'assets/icons/add_circle.png',
           suffixOnTap: addItemReference,
@@ -304,7 +301,7 @@ class _AddSolutionPageState extends State<AddSolutionPage> {
       }
       return ButtonPrimary(
         onPressed: addNew,
-        title: 'Add New',
+        title: 'Simpan Solusi',
       );
     });
   }

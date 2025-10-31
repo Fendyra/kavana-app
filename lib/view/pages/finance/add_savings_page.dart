@@ -24,7 +24,6 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
   final amountController = TextEditingController();
   final noteController = TextEditingController();
 
-
   void selectQuickAmount(int amount) {
     amountController.text = amount.toString();
   }
@@ -34,13 +33,13 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
     final note = noteController.text;
 
     if (amountText.isEmpty) {
-      Info.failed('Amount must be filled');
+      Info.failed('Nominal harus diisi');
       return;
     }
 
     final amount = double.tryParse(amountText);
     if (amount == null || amount <= 0) {
-      Info.failed('Amount must be valid');
+      Info.failed('Nominal tidak valid');
       return;
     }
 
@@ -114,7 +113,7 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
             ),
           ),
           const Text(
-            'Add Savings',
+            'Tambah Tabungan',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -139,7 +138,7 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Amount',
+          'Nominal',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -195,13 +194,12 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
     );
   }
 
-
   Widget buildNoteInput() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Note (Optional)',
+          'Catatan (Opsional)',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -220,7 +218,7 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: 'Add a note for this savings...',
+            hintText: 'Tambahkan catatan untuk tabungan ini...',
             isDense: true,
             contentPadding: const EdgeInsets.all(20),
             hintStyle: const TextStyle(
@@ -250,7 +248,7 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
       }
       return ButtonPrimary(
         onPressed: addSavings,
-        title: 'Save',
+        title: 'Simpan',
       );
     });
   }

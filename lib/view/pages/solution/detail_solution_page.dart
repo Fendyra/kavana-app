@@ -183,7 +183,7 @@ class _DetailSolutionPageState extends State<DetailSolutionPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Solution',
+            'Solusi',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -215,7 +215,7 @@ class _DetailSolutionPageState extends State<DetailSolutionPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Reference',
+            'Referensi',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
