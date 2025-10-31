@@ -35,27 +35,27 @@ class _RegisterPageState extends State<RegisterPage> {
     String password = passwordController.text;
 
     if (name == '') {
-      Info.failed('Name must be filled');
+      Info.failed('Nama harus diisi');
       return;
     }
 
     if (email == '') {
-      Info.failed('Email must be filled');
+      Info.failed('Email harus diisi');
       return;
     }
 
     if (!GetUtils.isEmail(email)) {
-      Info.failed('Email not valid');
+      Info.failed('Email tidak valid');
       return;
     }
 
     if (password == '') {
-      Info.failed('Password must be filled');
+      Info.failed('Password harus diisi');
       return;
     }
 
     if (password.length < 6) {
-      Info.failed('Password minimum 6 character');
+      Info.failed('Password minimum 6 karakter');
       return;
     }
 
@@ -124,7 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
           children: [
             Gap(MediaQuery.paddingOf(context).top),
             Image.asset(
-              'assets/images/logo_auth.png',
+              'assets/images/logo-auth.png',
               width: double.infinity,
               fit: BoxFit.fitWidth,
             ),
@@ -144,7 +144,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   Gap(10),
                   Text(
-                    'Please enter your data to register',
+                    'Masukkan data diri Anda untuk membuat akun baru',
                     style: TextStyle(
                       fontSize: 14,
                       color: AppColor.textBody,
@@ -166,7 +166,7 @@ class _RegisterPageState extends State<RegisterPage> {
         children: [
           InputAuth(
             controller: nameController,
-            hint: 'Name',
+            hint: 'Nama',
             icon: 'assets/icons/profile_square.png',
           ),
           const Gap(24),
@@ -208,7 +208,7 @@ class _RegisterPageState extends State<RegisterPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text(
-            'Already have an account?',
+            'Sudah punya akun?',
             style: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 14,
@@ -219,7 +219,7 @@ class _RegisterPageState extends State<RegisterPage> {
           InkWell(
             onTap: gotoLogin,
             child: const Text(
-              'Login Here',
+              'Login Disini',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14,

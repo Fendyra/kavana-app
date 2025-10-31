@@ -1,3 +1,4 @@
+// lib/view/pages/solution/solution_fragment.dart
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -97,7 +98,7 @@ class _SolutionFragmentState extends State<SolutionFragment> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Self Solution',
+                  'solusi pikiranmu',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
@@ -106,7 +107,7 @@ class _SolutionFragmentState extends State<SolutionFragment> {
                 ),
                 Gap(9),
                 Text(
-                  'Cek and solve your problem',
+                  'Temukan dan atasi tantanganmu dengan cara positif',
                   style: TextStyle(
                     fontSize: 14,
                     color: AppColor.textBody,
@@ -160,7 +161,7 @@ class _SolutionFragmentState extends State<SolutionFragment> {
               ),
             ),
           ),
-          hintText: 'Search your problem...',
+          hintText: 'Cari solusi untuk masalahmu...',
           hintStyle: const TextStyle(
             fontWeight: FontWeight.normal,
             fontSize: 14,
@@ -202,7 +203,7 @@ class _SolutionFragmentState extends State<SolutionFragment> {
         final list = state.list;
         if (list.isEmpty) {
           return const ResponseFailed(
-            message: 'No Solution Yet',
+            message: 'Belum ada solusi tersimpan',
             margin: EdgeInsets.fromLTRB(20, 16, 20, 140),
           );
         }
@@ -273,10 +274,11 @@ class _SolutionFragmentState extends State<SolutionFragment> {
                 backgroundColor: AppColor.primary,
                 elevation: 0,
                 shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                )),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(20),
+                  ),
+                ),
                 child: const ImageIcon(
                   AssetImage('assets/icons/edit.png'),
                 ),

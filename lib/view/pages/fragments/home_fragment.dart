@@ -41,10 +41,6 @@ class _HomeFragmentState extends State<HomeFragment> {
     });
   }
 
-  // void gotoChatAI() { // <--- HAPUS FUNGSI INI
-  //   Navigator.pushNamed(context, ChatAIPage.routeName);
-  // }
-
   void gotoAccount() {
     Navigator.pushNamed(context, AccountPage.routeName);
   }
@@ -175,7 +171,7 @@ class _HomeFragmentState extends State<HomeFragment> {
   Widget buildTitle() {
     return RichText(
       text: const TextSpan(
-        text: 'How do you feel\nabout your ',
+        text: 'Bagaimana Perasaan\nAnda Tentang ',
         style: TextStyle(
           fontWeight: FontWeight.normal,
           fontSize: 26,
@@ -184,7 +180,7 @@ class _HomeFragmentState extends State<HomeFragment> {
         ),
         children: [
           TextSpan(
-            text: 'current\nmood?',
+            text: 'Perasaan\nSaat Ini?',
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -209,7 +205,7 @@ class _HomeFragmentState extends State<HomeFragment> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Your Mood..',
+                'Perasaanmu..',
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.white,
@@ -234,7 +230,7 @@ class _HomeFragmentState extends State<HomeFragment> {
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Text(
-            'Your Mood Today',
+            'Perasaanmu Hari Ini',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
@@ -261,7 +257,7 @@ class _HomeFragmentState extends State<HomeFragment> {
           final list = state.list;
           if (list.isEmpty) {
             return const ResponseFailed(
-              message: 'No Mood Yet',
+              message: 'Belum Ada Suasana Hati Hari Ini',
               margin: EdgeInsets.symmetric(horizontal: 20),
             );
           }
@@ -312,7 +308,7 @@ class _HomeFragmentState extends State<HomeFragment> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Your Agenda Today',
+                'Agenda Hari Ini',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -322,7 +318,7 @@ class _HomeFragmentState extends State<HomeFragment> {
               InkWell(
                 onTap: gotoAllAgenda,
                 child: const Text(
-                  'All Agenda',
+                  'Semua Agenda',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
@@ -352,7 +348,7 @@ class _HomeFragmentState extends State<HomeFragment> {
           final list = state.list;
           if (list.isEmpty) {
             return const ResponseFailed(
-              message: 'No Agenda Yet',
+              message: 'Belum Ada Suasana Hati',
               margin: EdgeInsets.symmetric(horizontal: 20),
             );
           }

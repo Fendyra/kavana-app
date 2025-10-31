@@ -116,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Gap(MediaQuery.paddingOf(context).top),
             Image.asset(
-              'assets/images/logo_auth.png',
+              'assets/images/logo-auth.png',
               width: double.infinity,
               fit: BoxFit.fitWidth,
             ),
@@ -194,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text(
-            'Tidak punya akun?',
+            'Belum punya akun?',
             style: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 14,
@@ -205,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
           InkWell(
             onTap: gotoRegister,
             child: const Text(
-              'Register di sini',
+              'Register Disini',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14,

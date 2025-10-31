@@ -76,7 +76,7 @@ class _AnalyticFragmentState extends State<AnalyticFragment> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Analytic For You',
+          'Analitik Untukmu',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 22,
@@ -85,7 +85,7 @@ class _AnalyticFragmentState extends State<AnalyticFragment> {
         ),
         Gap(9),
         Text(
-          'Check and boost up your quality',
+          'Pantau dan tingkatkan kualitas dirimu setiap hari',
           style: TextStyle(
             fontSize: 14,
             color: AppColor.textBody,
@@ -109,7 +109,7 @@ class _AnalyticFragmentState extends State<AnalyticFragment> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Your Mood Today',
+            'Mood Kamu Hari Ini',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 14,
@@ -127,12 +127,12 @@ class _AnalyticFragmentState extends State<AnalyticFragment> {
               return const Center(child: CircularProgressIndicator());
             }
             if (statusRequest == StatusRequest.failed) {
-              return ResponseFailed(message: state.message);
+              return ResponseFailed(message: 'Gagal memuat data mood hari ini');
             }
             List<TimeData> moods = state.moods;
             List groupsLevel = state.group;
             if (moods.isEmpty) {
-              return const ResponseFailed(message: 'No Mood Yet');
+              return const ResponseFailed(message: 'Belum ada data mood');
             }
             return Column(
               children: [
@@ -189,7 +189,7 @@ class _AnalyticFragmentState extends State<AnalyticFragment> {
                           ),
                           const Gap(12),
                           Text(
-                            '$total',
+                            '$total kali',
                             style: const TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
@@ -227,7 +227,7 @@ class _AnalyticFragmentState extends State<AnalyticFragment> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Your Mood Last Month',
+            'Mood Kamu Bulan Ini',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 14,
@@ -245,12 +245,12 @@ class _AnalyticFragmentState extends State<AnalyticFragment> {
               return const Center(child: CircularProgressIndicator());
             }
             if (statusRequest == StatusRequest.failed) {
-              return ResponseFailed(message: state.message);
+              return ResponseFailed(message: 'Gagal memuat data mood bulanan');
             }
             List<TimeData> moods = state.moods;
             List groupsLevel = state.group;
             if (moods.isEmpty) {
-              return const ResponseFailed(message: 'No Mood Yet');
+              return const ResponseFailed(message: 'Belum ada data mood');
             }
             return Column(
               children: [
@@ -307,7 +307,7 @@ class _AnalyticFragmentState extends State<AnalyticFragment> {
                           ),
                           const Gap(12),
                           Text(
-                            '$total',
+                            '$total kali',
                             style: const TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
@@ -345,7 +345,7 @@ class _AnalyticFragmentState extends State<AnalyticFragment> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Your Agenda Last Month',
+            'Agenda Kamu Bulan Ini',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 14,
@@ -363,11 +363,11 @@ class _AnalyticFragmentState extends State<AnalyticFragment> {
               return const Center(child: CircularProgressIndicator());
             }
             if (statusRequest == StatusRequest.failed) {
-              return ResponseFailed(message: state.message);
+              return ResponseFailed(message: 'Gagal memuat data agenda');
             }
             List<TimeData> agendas = state.agendas;
             if (agendas.isEmpty) {
-              return const ResponseFailed(message: 'No Agenda Yet');
+              return const ResponseFailed(message: 'Belum ada agenda');
             }
             return AspectRatio(
               aspectRatio: 16 / 9,
