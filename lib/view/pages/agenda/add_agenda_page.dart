@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:geocoding/geocoding.dart'; // <--- TAMBAHKAN IMPORT
-import 'package:geolocator/geolocator.dart'; // <--- TAMBAHKAN IMPORT
+import 'package:geocoding/geocoding.dart'; 
+import 'package:geolocator/geolocator.dart'; 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:kavana_app/common/app_color.dart';

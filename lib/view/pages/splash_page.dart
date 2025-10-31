@@ -158,11 +158,11 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                     scale: _logoScaleAnimation,
                     child: Image.asset(
                       'assets/images/logo-kavana.png',
-                      width: 450,
+                      width: 350,
                     ),
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 10),
                 FadeTransition(
                   opacity: _taglineFadeAnimation,
                   child: SlideTransition(

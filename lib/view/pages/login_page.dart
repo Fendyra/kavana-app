@@ -35,17 +35,17 @@ class _LoginPageState extends State<LoginPage> {
     String password = passwordController.text;
 
     if (email == '') {
-      Info.failed('Email must be filled');
+      Info.failed('Email harus diisi');
       return;
     }
 
     if (!GetUtils.isEmail(email)) {
-      Info.failed('Email not valid');
+      Info.failed('Email tidak valid');
       return;
     }
 
     if (password == '') {
-      Info.failed('Password must be filled');
+      Info.failed('Password harus diisi');
       return;
     }
 
@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Gap(10),
                   Text(
-                    'Please enter your account to login',
+                    'Selamat datang kembali! Silakan masuk untuk melanjutkan.',
                     style: TextStyle(
                       fontSize: 14,
                       color: AppColor.textBody,
@@ -194,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text(
-            'Don\'t have an account?',
+            'Tidak punya akun?',
             style: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 14,
@@ -205,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
           InkWell(
             onTap: gotoRegister,
             child: const Text(
-              'Register Here',
+              'Register di sini',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14,

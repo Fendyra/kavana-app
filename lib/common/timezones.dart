@@ -1,4 +1,3 @@
-// File: lib/common/timezones.dart
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
 
