@@ -39,11 +39,11 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
     text: DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
   );
   final descriptionController = TextEditingController();
-  final locationController = TextEditingController(); // <--- TAMBAHKAN BARIS INI
+  final locationController = TextEditingController(); 
 
-  double? _latitude; // <--- TAMBAHKAN BARIS INI
-  double? _longitude; // <--- TAMBAHKAN BARIS INI
-  bool _isGettingLocation = false; // <--- TAMBAHKAN BARIS INI
+  double? _latitude; 
+  double? _longitude; 
+  bool _isGettingLocation = false; 
 
   // FUNGSI BARU UNTUK MENGAMBIL LOKASI
   Future<void> _getCurrentLocation() async {
@@ -106,7 +106,7 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
     final startEvent = startEventController.text;
     final endEvent = endEventController.text;
     final description = descriptionController.text;
-    final locationName = locationController.text; // <--- TAMBAHKAN BARIS INI
+    final locationName = locationController.text; 
 
     if (title.isEmpty) {
       Info.failed('Title must be filled');
@@ -155,8 +155,8 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
       description: description,
       userId: userId,
       locationName: locationName.isEmpty ? null : locationName, // <--- UBAH BARIS INI
-      latitude: _latitude, // <--- TAMBAHKAN BARIS INI
-      longitude: _longitude, // <--- TAMBAHKAN BARIS INI
+      latitude: _latitude, 
+      longitude: _longitude, 
     );
     final state = await addAgendaController.executeRequest(agenda);
 
@@ -227,12 +227,12 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
                 const Gap(20),
                 buildEndEventInput(),
                 const Gap(20),
-                buildLocationInput(), // <--- TAMBAHKAN BARIS INI
+                buildLocationInput(), 
                 const Gap(20),
                 buildDescriptionInput(),
                 const Gap(30),
                 buildAddButton(),
-                const Gap(30), // <--- TAMBAHKAN PADDING DI BAWAH
+                const Gap(30),
               ],
             ),
           ),
@@ -291,7 +291,7 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
         const Gap(12),
         CustomInput(
           controller: titleController,
-          hint: 'Liburan',
+          hint: 'Holiday',
           maxLines: 1,
         ),
       ],
@@ -451,7 +451,7 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
                       ),
                     ),
                   ),
-            hintText: 'Jl. Merdeka No. 10...',
+            hintText: 'e.g., 123 Main St, City, Country',
             isDense: true,
             contentPadding: const EdgeInsets.all(20),
             hintStyle: const TextStyle(
@@ -488,7 +488,7 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
         const Gap(12),
         CustomInput(
           controller: descriptionController,
-          hint: 'Bersama keluarga...',
+          hint: 'Describe your event here...',
           minLines: 2,
           maxLines: 5,
         ),

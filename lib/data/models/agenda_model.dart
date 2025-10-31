@@ -51,9 +51,8 @@ class AgendaModel {
       description: json['description'],
       timeZone: json['time_zone'],
       locationName: json['location_name'], 
-      // Konversi latitude/longitude dari API (yang mungkin String atau double)
-      latitude: json['latitude'] == null ? null : double.tryParse(json['latitude'].toString()), // <--- TAMBAHKAN BARIS INI
-      longitude: json['longitude'] == null ? null : double.tryParse(json['longitude'].toString()), // <--- TAMBAHKAN BARIS INI
+      latitude: json['latitude'] == null ? null : double.tryParse(json['latitude'].toString()), 
+      longitude: json['longitude'] == null ? null : double.tryParse(json['longitude'].toString()), 
     );
   }
 

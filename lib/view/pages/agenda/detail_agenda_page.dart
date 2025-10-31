@@ -11,7 +11,7 @@ import 'package:kavana_app/view/controllers/detail_agenda/detail_agenda_controll
 import 'package:kavana_app/view/widget/custom_button.dart';
 import 'package:kavana_app/view/widget/response_failed.dart';
 import 'package:kavana_app/common/timezones.dart';
-import 'package:url_launcher/url_launcher.dart'; // <--- TAMBAHKAN IMPORT
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailAgendaPage extends StatefulWidget {
   const DetailAgendaPage({super.key, required this.agendaId});
@@ -31,7 +31,6 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
   Map<String, String> _timeZoneDisplayNames = {};
   List<String> _timeZoneOptions = [];
 
-  // FUNGSI BARU UNTUK MEMBUKA PETA
   Future<void> _launchMapsUrl(double lat, double lng) async {
     final Uri url =
         Uri.parse('https://www.google.com/maps/search/?api=1&query=$lat,$lng');

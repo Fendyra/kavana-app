@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class AppColor {
   // Core Colors (Berdasarkan tema kartu)
   static const primary = Color(0xFF5D8BCE); // Biru medium yang tenang
-  static const secondary = Color(0xFFFFE57F); // Kuning cerah (dari smiley face)
+  static const secondary = Color(0xFFFFE57F); // Kuning cerah
 
   // Backgrounds/Surfaces
-  static const surface = Color(0xFFF7F7F7); // Latar belakang kartu (abu-abu sangat muda)
+  static const surface = Color(0xFFF7F7F7); // Latar belakang kartu 
   static const surfaceContainer = Color(0xFFFFFFFF); // Putih solid
-  static const surfaceLightYellow = Color(0xFFFFFBE5); // Kuning pucat (dari pattern)
-  static const surfaceLightBlue = Color(0xFFEAF1FA); // Biru sangat muda (tint dari primary)
+  static const surfaceLightYellow = Color(0xFFFFFBE5); // Kuning pucat 
+  static const surfaceLightBlue = Color(0xFFEAF1FA); // Biru Muda
 
   // Status Colors (Disimpan sebagai warna standar)
   static const error = Color(0xFFFF4D4D); // Merah cerah
