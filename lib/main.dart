@@ -6,7 +6,6 @@ import 'package:kavana_app/view/pages/account_page.dart';
 import 'package:kavana_app/view/pages/agenda/add_agenda_page.dart';
 import 'package:kavana_app/view/pages/agenda/all_agenda_page.dart';
 import 'package:kavana_app/view/pages/agenda/detail_agenda_page.dart';
-import 'package:kavana_app/view/pages/chat_ai_page.dart';
 import 'package:kavana_app/view/pages/dashboard_page.dart';
 import 'package:kavana_app/view/pages/finance/add_savings_page.dart';
 import 'package:kavana_app/view/pages/finance/currency_converter_page.dart';
@@ -85,7 +84,6 @@ class MainApp extends StatelessWidget {
           int solutionId = ModalRoute.settingsOf(context)?.arguments as int;
           return DetailSolutionPage(solutionId: solutionId);
         },
-        ChatAIPage.routeName: (context) => const ChatAIPage(),
         AddSavingsPage.routeName: (context) => const AddSavingsPage(),
         CurrencyConverterPage.routeName: (context) {
           double totalSavings = ModalRoute.settingsOf(context)?.arguments as double;
