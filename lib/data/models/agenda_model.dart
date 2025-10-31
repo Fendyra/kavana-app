@@ -7,6 +7,9 @@ class AgendaModel {
   final DateTime endEvent;
   final String? description;
   final String? timeZone;
+  final String? locationName; 
+  final double? latitude; 
+  final double? longitude; 
   
   AgendaModel({
     required this.id,
@@ -17,6 +20,9 @@ class AgendaModel {
     required this.endEvent,
     this.description,
     this.timeZone,
+    this.locationName, 
+    this.latitude, 
+    this.longitude, 
   });
 
   Map<String, dynamic> toJson() {
@@ -28,6 +34,9 @@ class AgendaModel {
       'start_event': startEvent.toIso8601String(),
       'end_event': endEvent.toIso8601String(),
       'description': description,
+      'location_name': locationName, 
+      'latitude': latitude, 
+      'longitude': longitude, 
     };
   }
 
@@ -41,6 +50,10 @@ class AgendaModel {
       endEvent: DateTime.parse(json['end_event']),
       description: json['description'],
       timeZone: json['time_zone'],
+      locationName: json['location_name'], 
+      // Konversi latitude/longitude dari API (yang mungkin String atau double)
+      latitude: json['latitude'] == null ? null : double.tryParse(json['latitude'].toString()), // <--- TAMBAHKAN BARIS INI
+      longitude: json['longitude'] == null ? null : double.tryParse(json['longitude'].toString()), // <--- TAMBAHKAN BARIS INI
     );
   }
 
@@ -54,6 +67,9 @@ class AgendaModel {
       'end_event': endEvent.toIso8601String(),
       'description': description.toString(),
       'time_zone': timeZone.toString(),
+      'location_name': locationName ?? '', 
+      'latitude': latitude?.toString() ?? '', 
+      'longitude': longitude?.toString() ?? '', 
     };
   }
 }

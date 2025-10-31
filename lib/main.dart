@@ -18,7 +18,7 @@ import 'package:kavana_app/view/pages/solution/detail_solution_page.dart';
 import 'package:kavana_app/view/pages/solution/update_solution_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:kavana_app/view/pages/splash_page.dart';
 
 
@@ -31,7 +31,7 @@ void main() async {
 Future<void> _initializeTimeZones() async {
   tz.initializeTimeZones();
   try {
-      final String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
+      final String currentTimeZone = (await FlutterTimezone.getLocalTimezone()) as String; 
       tz.setLocalLocation(tz.getLocation(currentTimeZone));
   } catch (e) {
       print('Could not get local timezone: $e');

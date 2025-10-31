@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:geocoding/geocoding.dart'; // <--- TAMBAHKAN IMPORT
+import 'package:geolocator/geolocator.dart'; // <--- TAMBAHKAN IMPORT
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:kavana_app/common/app_color.dart';
@@ -37,6 +39,66 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
     text: DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
   );
   final descriptionController = TextEditingController();
+  final locationController = TextEditingController(); // <--- TAMBAHKAN BARIS INI
+
+  double? _latitude; // <--- TAMBAHKAN BARIS INI
+  double? _longitude; // <--- TAMBAHKAN BARIS INI
+  bool _isGettingLocation = false; // <--- TAMBAHKAN BARIS INI
+
+  // FUNGSI BARU UNTUK MENGAMBIL LOKASI
+  Future<void> _getCurrentLocation() async {
+    setState(() {
+      _isGettingLocation = true;
+    });
+
+    try {
+      // 1. Cek Izin Lokasi
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          Info.failed('Izin lokasi ditolak');
+          setState(() => _isGettingLocation = false);
+          return;
+        }
+      }
+      
+      if (permission == LocationPermission.deniedForever) {
+        Info.failed('Izin lokasi ditolak permanen, buka pengaturan aplikasi');
+        setState(() => _isGettingLocation = false);
+        return;
+      }
+
+      // 2. Ambil Posisi Saat Ini
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      // 3. Ubah Koordinat menjadi Alamat (Geocoding)
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks[0];
+        String address =
+            '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+        
+        locationController.text = address;
+        _latitude = position.latitude;
+        _longitude = position.longitude;
+      } else {
+        Info.failed('Tidak dapat menemukan alamat dari lokasi saat ini');
+      }
+    } catch (e) {
+      Info.failed('Gagal mendapatkan lokasi: $e');
+    } finally {
+      setState(() {
+        _isGettingLocation = false;
+      });
+    }
+  }
 
   void addNew() async {
     final title = titleController.text;
@@ -44,6 +106,7 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
     final startEvent = startEventController.text;
     final endEvent = endEventController.text;
     final description = descriptionController.text;
+    final locationName = locationController.text; // <--- TAMBAHKAN BARIS INI
 
     if (title.isEmpty) {
       Info.failed('Title must be filled');
@@ -91,6 +154,9 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
       endEvent: endEventDate,
       description: description,
       userId: userId,
+      locationName: locationName.isEmpty ? null : locationName, // <--- UBAH BARIS INI
+      latitude: _latitude, // <--- TAMBAHKAN BARIS INI
+      longitude: _longitude, // <--- TAMBAHKAN BARIS INI
     );
     final state = await addAgendaController.executeRequest(agenda);
 
@@ -161,9 +227,12 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
                 const Gap(20),
                 buildEndEventInput(),
                 const Gap(20),
+                buildLocationInput(), // <--- TAMBAHKAN BARIS INI
+                const Gap(20),
                 buildDescriptionInput(),
                 const Gap(30),
                 buildAddButton(),
+                const Gap(30), // <--- TAMBAHKAN PADDING DI BAWAH
               ],
             ),
           ),
@@ -330,6 +399,75 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
           maxLines: 1,
           suffixIcon: 'assets/icons/calendar.png',
           suffixOnTap: () => chooseDateTime(endEventController),
+        ),
+      ],
+    );
+  }
+
+  // WIDGET BARU UNTUK INPUT LOKASI
+  Widget buildLocationInput() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Location (Optional)',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+            color: AppColor.textTitle,
+          ),
+        ),
+        const Gap(12),
+        TextFormField(
+          controller: locationController,
+          style: const TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 14,
+            color: AppColor.textBody,
+          ),
+          maxLines: 2,
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            suffixIcon: _isGettingLocation
+                ? const UnconstrainedBox(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppColor.primary,
+                      ),
+                    ),
+                  )
+                : GestureDetector(
+                    onTap: _getCurrentLocation,
+                    child: const UnconstrainedBox(
+                      alignment: Alignment(-0.5, 0),
+                      child: Icon(
+                        Icons.my_location,
+                        size: 24,
+                        color: AppColor.primary,
+                      ),
+                    ),
+                  ),
+            hintText: 'Jl. Merdeka No. 10...',
+            isDense: true,
+            contentPadding: const EdgeInsets.all(20),
+            hintStyle: const TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 14,
+              color: AppColor.textBody,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: const BorderSide(color: AppColor.primary, width: 2),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: const BorderSide(color: AppColor.primary, width: 2),
+            ),
+          ),
         ),
       ],
     );

@@ -11,7 +11,7 @@ import 'package:kavana_app/view/controllers/detail_agenda/detail_agenda_controll
 import 'package:kavana_app/view/widget/custom_button.dart';
 import 'package:kavana_app/view/widget/response_failed.dart';
 import 'package:kavana_app/common/timezones.dart';
-
+import 'package:url_launcher/url_launcher.dart'; // <--- TAMBAHKAN IMPORT
 
 class DetailAgendaPage extends StatefulWidget {
   const DetailAgendaPage({super.key, required this.agendaId});
@@ -30,6 +30,15 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
   String _selectedDisplayTimezone = 'Lokal';
   Map<String, String> _timeZoneDisplayNames = {};
   List<String> _timeZoneOptions = [];
+
+  // FUNGSI BARU UNTUK MEMBUKA PETA
+  Future<void> _launchMapsUrl(double lat, double lng) async {
+    final Uri url =
+        Uri.parse('https://www.google.com/maps/search/?api=1&query=$lat,$lng');
+    if (!await launchUrl(url)) {
+      Info.failed('Tidak bisa membuka peta');
+    }
+  }
 
   void delete() async {
     bool? yes = await DInfo.dialogConfirmation(
@@ -121,6 +130,8 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
                   const Gap(20),
                   buildTimeZoneSelector(),
                   const Gap(30),
+                  buildLocationInfo(agenda), // <--- TAMBAHKAN BARIS INI
+                  const Gap(30),
                   buildDescription(agenda.description ?? '-'),
                   const Gap(30),
                   buildDeleteButton(),
@@ -210,7 +221,8 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
           const Gap(12),
           Row(
             children: [
-              const Icon(Icons.access_time_outlined, size: 24, color: AppColor.primary),
+              const Icon(Icons.access_time_outlined,
+                  size: 24, color: AppColor.primary),
               const Gap(12),
               Expanded(
                 child: Text(
@@ -229,7 +241,8 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
           const Gap(4),
           Row(
             children: [
-              const Icon(Icons.timer_off_outlined, size: 24, color: AppColor.primary),
+              const Icon(Icons.timer_off_outlined,
+                  size: 24, color: AppColor.primary),
               const Gap(12),
               Expanded(
                 child: Text(
@@ -281,7 +294,8 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
           isDense: true,
           labelText: 'Tampilkan dalam Zona Waktu',
           labelStyle: const TextStyle(color: AppColor.primary, fontSize: 16),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
             borderSide: const BorderSide(color: AppColor.primary, width: 2),
@@ -291,6 +305,63 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
             borderSide: const BorderSide(color: AppColor.primary, width: 2),
           ),
         ),
+      ),
+    );
+  }
+
+  // WIDGET BARU UNTUK MENAMPILKAN INFO LOKASI
+  Widget buildLocationInfo(AgendaModel agenda) {
+    // Tampilkan hanya jika ada nama lokasi
+    if (agenda.locationName == null || agenda.locationName!.isEmpty) {
+      return const SizedBox();
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.white,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Location',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: AppColor.textTitle,
+            ),
+          ),
+          const Gap(12),
+          Row(
+            children: [
+              const Icon(Icons.location_on_outlined,
+                  size: 24, color: AppColor.primary),
+              const Gap(12),
+              Expanded(
+                child: Text(
+                  agenda.locationName!,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: AppColor.textBody,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          // Tampilkan tombol "Lihat di Peta" hanya jika ada koordinat
+          if (agenda.latitude != null && agenda.longitude != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: ButtonSecondary(
+                onPressed: () =>
+                    _launchMapsUrl(agenda.latitude!, agenda.longitude!),
+                title: 'Lihat di Peta',
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -331,7 +402,8 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Obx(() {
-        if (deleteAgendaController.state.statusRequest == StatusRequest.loading) {
+        if (deleteAgendaController.state.statusRequest ==
+            StatusRequest.loading) {
           return const Center(child: CircularProgressIndicator());
         }
         return ButtonDelete(
