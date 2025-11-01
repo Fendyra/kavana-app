@@ -348,7 +348,7 @@ class _HomeFragmentState extends State<HomeFragment> {
           final list = state.list;
           if (list.isEmpty) {
             return const ResponseFailed(
-              message: 'Belum Ada Suasana Hati',
+              message: 'Belum Ada Agenda Hari Ini',
               margin: EdgeInsets.symmetric(horizontal: 20),
             );
           }
