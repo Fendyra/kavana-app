@@ -227,7 +227,7 @@ class _AccountPageState extends State<AccountPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Kesan & Saran',
+                    'Pesan & Kesan Pengguna',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -236,7 +236,7 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                   Gap(12),
                   Text(
-                    'Kesan: Aplikasi Kavana membantu saya mengelola aktivitas dan suasana hati harian. Desainnya sederhana dan menyenangkan digunakan.\n\nSaran: Akan lebih baik jika ditambahkan opsi tema personal dan integrasi kalender agar lebih fleksibel.',
+                    'Pesan: Tugasnya memang "segampang itu" dan sepertinya kurang banyak dan menantang, saya dan teman-teman masih bisa nongkrong dan main karena tugasnya cukup dikerjain 2 jam saja selesai.\n\nKesan: Mata Kuliah ini sangat menyenangkan dan santai sekali, dosennya juga asik dan tidak membosankan apalagi pak bagus kalau ngajar di kelas suka ngelawak.',
                     style: TextStyle(
                       fontSize: 14,
                       color: AppColor.textBody,

@@ -52,6 +52,7 @@
 		<key>NSLocationAlwaysUsageDescription</key>
 		<string>Aplikasi ini memerlukan akses lokasi untuk menambahkan lokasi pada agenda Anda.</string>
 		<key>LSApplicationQueriesSchemes</key>
+	
 <array>
   <string>https</string>
   <string>http</string>
