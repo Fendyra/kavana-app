@@ -45,14 +45,12 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
   double? _longitude; 
   bool _isGettingLocation = false; 
 
-  // FUNGSI BARU UNTUK MENGAMBIL LOKASI
   Future<void> _getCurrentLocation() async {
     setState(() {
       _isGettingLocation = true;
     });
 
     try {
-      // 1. Cek Izin Lokasi
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
@@ -69,12 +67,10 @@ class _AddAgendaPageState extends State<AddAgendaPage> {
         return;
       }
 
-      // 2. Ambil Posisi Saat Ini
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
 
-      // 3. Ubah Koordinat menjadi Alamat (Geocoding)
       List<Placemark> placemarks = await placemarkFromCoordinates(
         position.latitude,
         position.longitude,

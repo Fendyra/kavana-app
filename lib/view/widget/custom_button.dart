@@ -9,9 +9,7 @@ class ButtonPrimary extends _CustomButton {
   }) : super(color: AppColor.primary);
 }
 
-// A specialized auth-style button (pink) used by auth pages for a more
-// prominent CTA that matches the reference UI. This is a pure UI addition
-// and does not change existing button logic.
+
 class AuthButton extends _CustomButton {
   const AuthButton({
     super.key,
