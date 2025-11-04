@@ -46,10 +46,12 @@ class _AccountPageState extends State<AccountPage> {
     if (yes ?? false) {
       Session.removeUser();
       if (mounted) {
+
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/login',
-          (route) => route.settings.name == '/dashboard',
+          (route) => false, 
+          arguments: 'Logout berhasil', 
         );
       }
     }

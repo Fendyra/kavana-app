@@ -69,6 +69,18 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final message = ModalRoute.of(context)?.settings.arguments as String?;
+
+      if (message != null && message.isNotEmpty) {
+        Info.success(message); 
+      }
+    });
+  }
+
+  @override
   void dispose() {
     LoginController.delete();
     super.dispose();
