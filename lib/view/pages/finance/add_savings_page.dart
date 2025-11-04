@@ -24,8 +24,23 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
   final amountController = TextEditingController();
   final noteController = TextEditingController();
 
-  void selectQuickAmount(int amount) {
-    amountController.text = amount.toString();
+  final List<int> incrementAmounts = [
+    50000,
+    100000,
+    200000,
+    350000,
+    500000,
+  ];
+
+  void incrementAmount(int amountToAdd) {
+    final currentText = amountController.text.replaceAll('.', '');
+    int currentAmount = int.tryParse(currentText) ?? 0;
+    int newAmount = currentAmount + amountToAdd;
+
+    amountController.text = newAmount.toString();
+    amountController.selection = TextSelection.fromPosition(
+      TextPosition(offset: amountController.text.length),
+    );
   }
 
   void addSavings() async {
@@ -86,6 +101,8 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
               children: [
                 const Gap(20),
                 buildAmountInput(),
+                const Gap(24),
+                buildIncrementAmounts(),
                 const Gap(30),
                 buildNoteInput(),
                 const Gap(40),
@@ -194,6 +211,52 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
     );
   }
 
+  Widget buildIncrementAmounts() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Tambah Cepat',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+            color: AppColor.textBody,
+          ),
+        ),
+        const Gap(12),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: incrementAmounts.map((amount) {
+            return InkWell(
+              onTap: () => incrementAmount(amount),
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: AppColor.secondary.withOpacity(0.3),
+                  border: Border.all(color: AppColor.secondary, width: 1),
+                ),
+                child: Text(
+                  '+ Rp ${amount ~/ 1000}K',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: AppColor.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
   Widget buildNoteInput() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -211,7 +274,6 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
           controller: noteController,
           maxLines: 3,
           style: const TextStyle(
-            fontWeight: FontWeight.normal,
             fontSize: 14,
             color: AppColor.textBody,
           ),
@@ -222,7 +284,6 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
             isDense: true,
             contentPadding: const EdgeInsets.all(20),
             hintStyle: const TextStyle(
-              fontWeight: FontWeight.normal,
               fontSize: 14,
               color: AppColor.textBody,
             ),
