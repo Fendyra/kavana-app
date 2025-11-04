@@ -3,7 +3,6 @@ class UserModel {
   final String name;
   final String email;
   final String password;
-  final String? profilePicture;
   final DateTime createdAt;
 
   UserModel({
@@ -11,7 +10,6 @@ class UserModel {
     required this.name,
     required this.email,
     required this.password,
-    this.profilePicture,
     required this.createdAt,
   });
 
@@ -21,7 +19,6 @@ class UserModel {
       'name': name,
       'email': email,
       'password': password,
-      'profile_picture': profilePicture,
       'created_at': createdAt.toIso8601String(),
     };
   }
@@ -32,7 +29,6 @@ class UserModel {
       name: json['name'],
       email: json['email'],
       password: json['password'],
-      profilePicture: json['profile_picture'],
       createdAt: DateTime.parse(json['created_at']),
     );
   }

@@ -7,7 +7,6 @@ import 'package:kavana_app/view/pages/agenda/add_agenda_page.dart';
 import 'package:kavana_app/view/pages/agenda/all_agenda_page.dart';
 import 'package:kavana_app/view/pages/agenda/detail_agenda_page.dart';
 import 'package:kavana_app/view/pages/dashboard_page.dart';
-import 'package:kavana_app/view/pages/edit_profile_page.dart';
 import 'package:kavana_app/view/pages/finance/add_savings_page.dart';
 import 'package:kavana_app/view/pages/finance/currency_converter_page.dart';
 import 'package:kavana_app/view/pages/finance/savings_history_page.dart';
@@ -95,7 +94,6 @@ class MainApp extends StatelessWidget {
           return CurrencyConverterPage();
         },
         SavingsHistoryPage.routeName: (context) => const SavingsHistoryPage(),
-        EditProfilePage.routeName: (context) => const EditProfilePage(),
       },
 
     );
