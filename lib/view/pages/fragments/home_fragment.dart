@@ -13,6 +13,7 @@ import 'package:kavana_app/view/controllers/home/mood_today_controller.dart';
 import 'package:kavana_app/view/pages/account_page.dart';
 import 'package:kavana_app/view/pages/agenda/all_agenda_page.dart';
 import 'package:kavana_app/view/pages/agenda/detail_agenda_page.dart';
+import 'package:kavana_app/view/pages/chat_ai_page.dart';
 import 'package:kavana_app/view/pages/mood/choose_mood_page.dart';
 import 'package:kavana_app/view/widget/response_failed.dart';
 
@@ -43,6 +44,10 @@ class _HomeFragmentState extends State<HomeFragment> {
 
   void gotoAccount() {
     Navigator.pushNamed(context, AccountPage.routeName);
+  }
+
+  void gotoChatAI() {
+    Navigator.pushNamed(context, ChatAIPage.routeName);
   }
 
   void gotoChooseMood() {
@@ -97,7 +102,7 @@ class _HomeFragmentState extends State<HomeFragment> {
     );
   }
 
-  Widget buildHeader() {
+Widget buildHeader() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: const BoxDecoration(
@@ -115,11 +120,24 @@ class _HomeFragmentState extends State<HomeFragment> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               buildProfile(),
+              IconButton.filled(
+                onPressed: gotoChatAI,
+                constraints: BoxConstraints.tight(const Size(48, 48)),
+                color: AppColor.primary,
+                style: const ButtonStyle(
+                  overlayColor: WidgetStatePropertyAll(AppColor.secondary),
+                ),
+                icon: const ImageIcon(
+                  AssetImage('assets/icons/message.png'),
+                  size: 24,
+                  color: Colors.white,
+                ),
+              ),
             ],
           ),
           const Gap(26),
           const Text(
-            'Mood Harian',
+            'Daily Mood',
             style: TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 14,
@@ -135,7 +153,7 @@ class _HomeFragmentState extends State<HomeFragment> {
       ),
     );
   }
-
+  
   Widget buildProfile() {
     return Row(
       children: [
