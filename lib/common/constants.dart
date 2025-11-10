@@ -1,4 +1,8 @@
+import 'package:kavana_app/core/api.dart';
+
 class Constants {
   static const agendaCategories = ['Travel', 'Food & Drink', 'Sport', 'Family'];
-  static const googleAIAPIKey = String.fromEnvironment('GOOGLE_AI_API_KEY');
+  
+  // Use API key from API class
+  static const googleAIAPIKey = API.geminiApiKey;
 }
