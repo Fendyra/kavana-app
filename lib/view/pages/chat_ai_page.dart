@@ -45,7 +45,7 @@ class _ChatAIPageState extends State<ChatAIPage> {
 
     final responseAI = await chatAIController.sendMessage(messageFromUser);
     if (responseAI == null) {
-      Info.failed('AI Not respone');
+      Info.failed('AI Not response. Check your API key and internet connection.');
     }
 
     promptController.clear();

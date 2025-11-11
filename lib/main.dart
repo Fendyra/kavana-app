@@ -22,11 +22,13 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:kavana_app/view/pages/splash_page.dart';
 import 'package:kavana_app/services/notification_service.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
 final NotificationService notificationService = NotificationService();
 void main() async { 
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await _initializeTimeZones(); 
   await notificationService.initialize();
   await notificationService.scheduleAllDailyReminders();
