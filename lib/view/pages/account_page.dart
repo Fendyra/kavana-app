@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:d_info/d_info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kavana_app/common/app_color.dart';
@@ -63,36 +64,40 @@ class _AccountPageState extends State<AccountPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Tes Notifikasi Harian'),
+          title: const Text('Tes Notifikasi (5 Detik)'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
                 title: const Text('Tes Notifikasi Pagi'),
                 onTap: () {
-                  _notificationService.testShowNotification(0);
+                  _notificationService.scheduleTestNotification(0, 5);
                   Navigator.of(context).pop();
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                 },
               ),
               ListTile(
                 title: const Text('Tes Notifikasi Siang'),
                 onTap: () {
-                  _notificationService.testShowNotification(1);
+                  _notificationService.scheduleTestNotification(1, 5);
                   Navigator.of(context).pop();
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                 },
               ),
               ListTile(
                 title: const Text('Tes Notifikasi Sore'),
                 onTap: () {
-                  _notificationService.testShowNotification(2);
+                  _notificationService.scheduleTestNotification(2, 5);
                   Navigator.of(context).pop();
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                 },
               ),
               ListTile(
                 title: const Text('Tes Notifikasi Malam'),
                 onTap: () {
-                  _notificationService.testShowNotification(3);
+                  _notificationService.scheduleTestNotification(3, 5);
                   Navigator.of(context).pop();
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                 },
               ),
             ],
