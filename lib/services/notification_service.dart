@@ -145,4 +145,78 @@ class NotificationService {
   Future<void> cancelAllNotifications() async {
     await flutterLocalNotificationsPlugin.cancelAll();
   }
+
+  Future<void> testShowNotification(int id) async {
+    String title;
+    String body;
+    NotificationDetails notificationDetails;
+
+    switch (id) {
+      case 0:
+        title = 'Selamat Pagi! ☀️';
+        body = 'Semangat mengawali hari! Jangan lupa buat rencana hebat hari ini.';
+        notificationDetails = const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'daily_morning_channel',
+            'Daily Morning Reminders',
+            channelDescription: 'Channel for daily morning reminders',
+            importance: Importance.max,
+            priority: Priority.high,
+          ),
+          iOS: DarwinNotificationDetails(),
+        );
+        break;
+      case 1:
+        title = 'Waktunya Istirahat! 🍱';
+        body = 'Sudahkah kamu istirahat dan makan siang? Jaga energimu!';
+        notificationDetails = const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'daily_noon_channel',
+            'Daily Noon Reminders',
+            channelDescription: 'Channel for daily noon reminders',
+            importance: Importance.max,
+            priority: Priority.high,
+          ),
+          iOS: DarwinNotificationDetails(),
+        );
+        break;
+      case 2:
+        title = 'Bagaimana Harimu? 🤔';
+        body = 'Yuk, luangkan waktu sejenak untuk mencatat perasaanmu di Kavana.';
+        notificationDetails = const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'daily_evening_channel',
+            'Daily Evening Reminders',
+            channelDescription: 'Channel for daily evening reminders (mood check)',
+            importance: Importance.max,
+            priority: Priority.high,
+          ),
+          iOS: DarwinNotificationDetails(),
+        );
+        break;
+      case 3:
+        title = 'Selamat Tidur 🌙';
+        body = 'Jangan lupa bersyukur untuk hari ini dan selamat beristirahat.';
+        notificationDetails = const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'daily_night_channel',
+            'Daily Night Reminders',
+            channelDescription: 'Channel for daily night reminders',
+            importance: Importance.max,
+            priority: Priority.high,
+          ),
+          iOS: DarwinNotificationDetails(),
+        );
+        break;
+      default:
+        return;
+    }
+
+    await flutterLocalNotificationsPlugin.show(
+      id,
+      title,
+      body,
+      notificationDetails,
+    );
+  }
 }

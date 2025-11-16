@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kavana_app/common/app_color.dart';
 import 'package:kavana_app/core/session.dart';
+import 'package:kavana_app/services/notification_service.dart';
 import 'package:kavana_app/view/widget/bottom_clip_painter.dart';
 import 'package:kavana_app/view/widget/custom_button.dart';
 import 'package:kavana_app/view/widget/top_clip_painter.dart';
@@ -21,6 +22,7 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage> {
   File? _imageFile;
   final ImagePicker _picker = ImagePicker();
+  final NotificationService _notificationService = NotificationService();
 
   void _pickImage() async {
     final XFile? pickedFile = await _picker.pickImage(
@@ -46,15 +48,66 @@ class _AccountPageState extends State<AccountPage> {
     if (yes ?? false) {
       Session.removeUser();
       if (mounted) {
-
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/login',
-          (route) => false, 
-          arguments: 'Logout berhasil', 
+          (route) => false,
+          arguments: 'Logout berhasil',
         );
       }
     }
+  }
+
+  void _showTestNotificationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Tes Notifikasi Harian'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: const Text('Tes Notifikasi Pagi'),
+                onTap: () {
+                  _notificationService.testShowNotification(0);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                title: const Text('Tes Notifikasi Siang'),
+                onTap: () {
+                  _notificationService.testShowNotification(1);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                title: const Text('Tes Notifikasi Sore'),
+                onTap: () {
+                  _notificationService.testShowNotification(2);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                title: const Text('Tes Notifikasi Malam'),
+                onTap: () {
+                  _notificationService.testShowNotification(3);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Batal'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -330,11 +383,7 @@ class _AccountPageState extends State<AccountPage> {
                   icon: Icons.notifications_none_rounded,
                   title: 'Notifikasi',
                   onTap: () {
-                    DInfo.dialogConfirmation(
-                      context,
-                      'Info',
-                      'Fitur notifikasi akan segera hadir!',
-                    );
+                    _showTestNotificationDialog(context);
                   },
                 ),
                 _buildDivider(),
