@@ -11,8 +11,7 @@
         android:label="kavana_app"
         android:name="${applicationName}"
         android:usesCleartextTraffic="true"
-        android:icon="@mipmap/ic_launcher"
-        android:smallIcon="@mipmap/logo_notifikasi">
+        android:icon="@mipmap/ic_logo_notifikasi">
 
         <receiver
             android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
