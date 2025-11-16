@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -8,6 +10,7 @@ import 'package:kavana_app/core/session.dart';
 import 'package:kavana_app/data/models/agenda_model.dart';
 import 'package:kavana_app/data/models/mood_model.dart';
 import 'package:kavana_app/data/models/user_model.dart';
+import 'package:kavana_app/data/models/user_preferences.dart';
 import 'package:kavana_app/view/controllers/home/agenda_today_controller.dart';
 import 'package:kavana_app/view/controllers/home/mood_today_controller.dart';
 import 'package:kavana_app/view/pages/account_page.dart';
@@ -154,37 +157,55 @@ Widget buildHeader() {
     );
   }
   
-  Widget buildProfile() {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: gotoAccount,
-          child: ClipOval(
-            child: Image.asset(
-              'assets/images/profile.png',
+Widget buildProfile() {
+  return FutureBuilder(
+    future: Future.wait([
+      Session.getUser(),
+      UserPreferences.getProfileImagePath(),
+      UserPreferences.getUserName(),
+    ]),
+    builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+      final user = snapshot.data?[0] as UserModel?;
+      final imagePath = snapshot.data?[1] as String?;
+      final userName = snapshot.data?[2] as String?;
+      
+      String name = userName ?? user?.name ?? '';
+      
+      return Row(
+        children: [
+          GestureDetector(
+            onTap: gotoAccount,
+            child: Container(
               width: 48,
               height: 48,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: imagePath != null && File(imagePath).existsSync()
+                    ? DecorationImage(
+                        image: FileImage(File(imagePath)),
+                        fit: BoxFit.cover,
+                      )
+                    : const DecorationImage(
+                        image: AssetImage('assets/images/profile.png'),
+                        fit: BoxFit.cover,
+                      ),
+              ),
             ),
           ),
-        ),
-        const Gap(16),
-        FutureBuilder(
-            future: Session.getUser(),
-            builder: (context, snapshot) {
-              UserModel? user = snapshot.data;
-              String name = user?.name ?? '';
-              return Text(
-                'Hi, $name',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: AppColor.textTitle,
-                ),
-              );
-            }),
-      ],
-    );
-  }
+          const Gap(16),
+          Text(
+            'Hi, $name',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: AppColor.textTitle,
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
 
   Widget buildTitle() {
     return RichText(

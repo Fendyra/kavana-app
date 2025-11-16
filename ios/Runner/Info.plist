@@ -45,19 +45,31 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-		<string>Aplikasi ini memerlukan akses lokasi untuk menambahkan lokasi pada agenda Anda.</string>
-		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-		<string>Aplikasi ini memerlukan akses lokasi untuk menambahkan lokasi pada agenda Anda.</string>
-		<key>NSLocationAlwaysUsageDescription</key>
-		<string>Aplikasi ini memerlukan akses lokasi untuk menambahkan lokasi pada agenda Anda.</string>
-		<key>LSApplicationQueriesSchemes</key>
 	
-<array>
-  <string>https</string>
-  <string>http</string>
-  <string>tel</string>
-  <string>mailto</string>
-  <string>maps</string> </array>
+	<!-- Location Permissions -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Aplikasi ini memerlukan akses lokasi untuk menambahkan lokasi pada agenda Anda.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Aplikasi ini memerlukan akses lokasi untuk menambahkan lokasi pada agenda Anda.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Aplikasi ini memerlukan akses lokasi untuk menambahkan lokasi pada agenda Anda.</string>
+	
+	<!-- Camera and Photo Library Permissions -->
+	<key>NSCameraUsageDescription</key>
+	<string>Aplikasi memerlukan akses kamera untuk mengambil foto profil</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Aplikasi memerlukan akses galeri untuk memilih foto profil</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Aplikasi memerlukan akses untuk menyimpan foto ke galeri</string>
+	
+	<!-- URL Schemes -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>https</string>
+		<string>http</string>
+		<string>tel</string>
+		<string>mailto</string>
+		<string>maps</string>
+	</array>
 </dict>
 </plist>

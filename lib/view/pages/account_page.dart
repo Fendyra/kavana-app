@@ -3,10 +3,11 @@ import 'package:d_info/d_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:kavana_app/common/app_color.dart';
 import 'package:kavana_app/core/session.dart';
+import 'package:kavana_app/data/models/user_preferences.dart';
 import 'package:kavana_app/services/notification_service.dart';
+import 'package:kavana_app/view/pages/edit_profile_page.dart';
 import 'package:kavana_app/view/widget/bottom_clip_painter.dart';
 import 'package:kavana_app/view/widget/custom_button.dart';
 import 'package:kavana_app/view/widget/top_clip_painter.dart';
@@ -21,22 +22,35 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  File? _imageFile;
-  final ImagePicker _picker = ImagePicker();
   final NotificationService _notificationService = NotificationService();
+  String? _profileImagePath;
+  String _userName = '';
+  String _userEmail = '';
 
-  void _pickImage() async {
-    final XFile? pickedFile = await _picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        _imageFile = File(pickedFile.path);
-      });
-      if (mounted) {
-        DInfo.snackBarSuccess(context, 'Foto profil berhasil diperbarui!');
-      }
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final imagePath = await UserPreferences.getProfileImagePath();
+    final userName = await UserPreferences.getUserName();
+    final userEmail = await UserPreferences.getUserEmail();
+    
+    final user = await Session.getUser();
+    
+    setState(() {
+      _profileImagePath = imagePath;
+      _userName = userName ?? user?.name ?? 'Pengguna Kavana';
+      _userEmail = userEmail ?? user?.email ?? 'pengguna@example.com';
+    });
+  }
+
+  void _gotoEditProfile() async {
+    final result = await Navigator.pushNamed(context, EditProfilePage.routeName);
+    if (result == true) {
+      _loadUserData(); // Reload data after edit
     }
   }
 
@@ -149,90 +163,58 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   Widget buildProfile() {
-    return FutureBuilder(
-      future: Session.getUser(),
-      builder: (context, snapshot) {
-        final user = snapshot.data;
-        String name = user?.name ?? 'Pengguna Kavana';
-        String email = user?.email ?? 'pengguna@example.com';
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Stack(
+          clipBehavior: Clip.none,
           children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: _imageFile != null
-                          ? FileImage(_imageFile!) as ImageProvider
-                          : const AssetImage('assets/images/profile.png'),
-                      fit: BoxFit.cover,
-                    ),
-                    shape: BoxShape.circle,
-                    border: Border.all(width: 4, color: AppColor.primary),
-                  ),
+            Container(
+              width: 120,
+              height: 120,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: _profileImagePath != null && File(_profileImagePath!).existsSync()
+                      ? FileImage(File(_profileImagePath!)) as ImageProvider
+                      : const AssetImage('assets/images/profile.png'),
+                  fit: BoxFit.cover,
                 ),
-                Positioned(
-                  bottom: -4,
-                  right: -4,
-                  child: Material(
-                    color: AppColor.primary,
-                    shape: const CircleBorder(),
-                    elevation: 2,
-                    child: InkWell(
-                      onTap: _pickImage,
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                        width: 36,
-                        height: 36,
-                        alignment: Alignment.center,
-                        child: const Icon(
-                          Icons.camera_alt_rounded,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const Gap(16),
-            Text(
-              name,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: AppColor.textTitle,
-              ),
-            ),
-            const Gap(4),
-            Text(
-              email,
-              style: const TextStyle(
-                fontSize: 15,
-                color: AppColor.textBody,
-              ),
-            ),
-            const Gap(30),
-            buildMoodVisualization(),
-            const Gap(24),
-            buildSettingsList(),
-            const Gap(30),
-            SizedBox(
-              width: 160,
-              child: ButtonSecondary(
-                onPressed: logout,
-                title: 'Keluar',
+                shape: BoxShape.circle,
+                border: Border.all(width: 4, color: AppColor.primary),
               ),
             ),
           ],
-        );
-      },
+        ),
+        const Gap(16),
+        Text(
+          _userName,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: AppColor.textTitle,
+          ),
+        ),
+        const Gap(4),
+        Text(
+          _userEmail,
+          style: const TextStyle(
+            fontSize: 15,
+            color: AppColor.textBody,
+          ),
+        ),
+        const Gap(30),
+        buildMoodVisualization(),
+        const Gap(24),
+        buildSettingsList(),
+        const Gap(30),
+        SizedBox(
+          width: 160,
+          child: ButtonSecondary(
+            onPressed: logout,
+            title: 'Keluar',
+          ),
+        ),
+      ],
     );
   }
 
@@ -385,6 +367,12 @@ class _AccountPageState extends State<AccountPage> {
             child: Column(
               children: [
                 _buildSettingItem(
+                  icon: Icons.edit_rounded,
+                  title: 'Edit Profil',
+                  onTap: _gotoEditProfile,
+                ),
+                _buildDivider(),
+                _buildSettingItem(
                   icon: Icons.notifications_none_rounded,
                   title: 'Notifikasi',
                   onTap: () {
@@ -497,42 +485,6 @@ class _AccountPageState extends State<AccountPage> {
               fontWeight: FontWeight.bold,
               fontSize: 16,
               color: AppColor.primary,
-            ),
-          ),
-          const Spacer(),
-          Material(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(8),
-            child: InkWell(
-              onTap: () {
-                DInfo.dialogConfirmation(
-                  context,
-                  'Info',
-                  'Halaman edit profil akan segera hadir!',
-                );
-              },
-              borderRadius: BorderRadius.circular(8),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: const Row(
-                  children: [
-                    ImageIcon(
-                      AssetImage('assets/icons/edit.png'),
-                      size: 18,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                    Gap(6),
-                    Text(
-                      'Edit',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ),
           ),
         ],
