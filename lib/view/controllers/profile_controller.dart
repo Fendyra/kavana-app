@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:kavana_app/data/models/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:kavana_app/common/app_color.dart';
+import 'package:kavana_app/core/session.dart';
 
 class ProfileController extends GetxController {
   final _profileImagePath = Rxn<String>();
@@ -27,6 +28,19 @@ class ProfileController extends GetxController {
     _profileImagePath.value = imagePath;
     _userName.value = name ?? '';
     _userEmail.value = email ?? '';
+    
+    // Jika UserPreferences kosong, ambil dari Session
+    if (_userName.value.isEmpty || _userEmail.value.isEmpty) {
+      final user = await Session.getUser();
+      if (user != null) {
+        _userName.value = user.name;
+        _userEmail.value = user.email;
+        // Simpan ke UserPreferences untuk next time
+        await UserPreferences.saveUserName(user.name);
+        await UserPreferences.saveUserEmail(user.email);
+        await UserPreferences.saveUserId(user.id);
+      }
+    }
   }
 
   Future<void> updateProfileImage(String? imagePath) async {
@@ -39,6 +53,12 @@ class ProfileController extends GetxController {
 
   Future<void> updateUserEmail(String email) async {
     _userEmail.value = email;
+  }
+
+  void clear() {
+    _profileImagePath.value = null;
+    _userName.value = '';
+    _userEmail.value = '';
   }
 
   Widget getProfileImage({

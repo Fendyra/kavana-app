@@ -13,6 +13,7 @@ import 'package:kavana_app/data/models/user_model.dart';
 import 'package:kavana_app/data/models/user_preferences.dart';
 import 'package:kavana_app/view/controllers/home/agenda_today_controller.dart';
 import 'package:kavana_app/view/controllers/home/mood_today_controller.dart';
+import 'package:kavana_app/view/controllers/profile_controller.dart';
 import 'package:kavana_app/view/pages/account_page.dart';
 import 'package:kavana_app/view/pages/agenda/all_agenda_page.dart';
 import 'package:kavana_app/view/pages/agenda/detail_agenda_page.dart';
@@ -30,12 +31,14 @@ class HomeFragment extends StatefulWidget {
 class _HomeFragmentState extends State<HomeFragment> {
   final moodTodayController = Get.put(MoodTodayController());
   final agendaTodayController = Get.put(AgendaTodayController());
+  final profileController = Get.put(ProfileController());
 
   refresh() async {
     final user = await Session.getUser();
     int userId = user!.id;
     moodTodayController.fetchData(userId);
     agendaTodayController.fetchData(userId);
+    profileController.loadProfileData();
   }
 
   refreshAgenda() {
@@ -105,7 +108,7 @@ class _HomeFragmentState extends State<HomeFragment> {
     );
   }
 
-Widget buildHeader() {
+  Widget buildHeader() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: const BoxDecoration(
@@ -156,56 +159,28 @@ Widget buildHeader() {
       ),
     );
   }
-  
-Widget buildProfile() {
-  return FutureBuilder(
-    future: Future.wait([
-      Session.getUser(),
-      UserPreferences.getProfileImagePath(),
-      UserPreferences.getUserName(),
-    ]),
-    builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-      final user = snapshot.data?[0] as UserModel?;
-      final imagePath = snapshot.data?[1] as String?;
-      final userName = snapshot.data?[2] as String?;
-      
-      String name = userName ?? user?.name ?? '';
-      
-      return Row(
-        children: [
-          GestureDetector(
-            onTap: gotoAccount,
-            child: Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: imagePath != null && File(imagePath).existsSync()
-                    ? DecorationImage(
-                        image: FileImage(File(imagePath)),
-                        fit: BoxFit.cover,
-                      )
-                    : const DecorationImage(
-                        image: AssetImage('assets/images/profile.png'),
-                        fit: BoxFit.cover,
-                      ),
-              ),
-            ),
-          ),
-          const Gap(16),
-          Text(
-            'Hi, $name',
+
+  Widget buildProfile() {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: gotoAccount,
+          child: profileController.getProfileImage(size: 48),
+        ),
+        const Gap(16),
+        Obx(() {
+          return Text(
+            'Hi, ${profileController.userName}',
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
               color: AppColor.textTitle,
             ),
-          ),
-        ],
-      );
-    },
-  );
-}
+          );
+        }),
+      ],
+    );
+  }
 
   Widget buildTitle() {
     return RichText(
@@ -297,7 +272,7 @@ Widget buildProfile() {
           if (list.isEmpty) {
             return const ResponseFailed(
               message: 'Belum Ada Suasana Hati Hari Ini',
-              margin: EdgeInsets.symmetric(horizontal: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
             );
           }
           return SizedBox(
@@ -388,7 +363,7 @@ Widget buildProfile() {
           if (list.isEmpty) {
             return const ResponseFailed(
               message: 'Belum Ada Agenda Hari Ini',
-              margin: EdgeInsets.symmetric(horizontal: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
             );
           }
           return ListView.builder(

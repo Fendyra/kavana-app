@@ -2,8 +2,6 @@ import 'package:get/get.dart';
 import 'package:kavana_app/common/enums.dart';
 import 'package:kavana_app/data/datasources/savings_remote_data_source.dart';
 import 'package:kavana_app/data/models/savings_model.dart';
-import 'package:intl/intl.dart';
-
 class AddSavingsController extends GetxController {
   final _state = AddSavingsState(
     message: '',

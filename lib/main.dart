@@ -94,7 +94,7 @@ class MainApp extends StatelessWidget {
         },
         AddSavingsPage.routeName: (context) => const AddSavingsPage(),
         CurrencyConverterPage.routeName: (context) {
-          double totalSavings = ModalRoute.settingsOf(context)?.arguments as double;
+          // double totalSavings = ModalRoute.settingsOf(context)?.arguments as double;
           return CurrencyConverterPage();
         },
         SavingsHistoryPage.routeName: (context) => const SavingsHistoryPage(),

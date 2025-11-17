@@ -61,7 +61,11 @@ class _AccountPageState extends State<AccountPage> {
       'Apakah kamu yakin ingin keluar?',
     );
     if (yes ?? false) {
-      Session.removeUser();
+      await Session.removeUser();
+      // Hapus juga data di UserPreferences kecuali foto profil
+      await UserPreferences.saveUserName('');
+      await UserPreferences.saveUserEmail('');
+      await UserPreferences.saveUserId(0);
       if (mounted) {
         Navigator.pushNamedAndRemoveUntil(
           context,

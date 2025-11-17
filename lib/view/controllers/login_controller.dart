@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:kavana_app/common/enums.dart';
 import 'package:kavana_app/core/session.dart';
 import 'package:kavana_app/data/datasources/user_remote_data_source.dart';
+import 'package:kavana_app/data/models/user_preferences.dart';
 
 class LoginController extends GetxController {
   final _state = LoginState(
@@ -26,7 +27,11 @@ class LoginController extends GetxController {
     ) = await UserRemoteDataSource.login(email, password);
 
     if (success) {
-      Session.saveUser(user!.toJson());
+      await Session.saveUser(user!.toJson());
+      // Sinkronkan data user ke UserPreferences
+      await UserPreferences.saveUserName(user.name);
+      await UserPreferences.saveUserEmail(user.email);
+      await UserPreferences.saveUserId(user.id);
     }
 
     state = state.copyWith(

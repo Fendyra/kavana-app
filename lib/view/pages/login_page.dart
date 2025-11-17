@@ -61,6 +61,9 @@ class _LoginPageState extends State<LoginPage> {
 
     if (state.statusRequest == StatusRequest.success) {
       Info.success(state.message);
+      
+      Get.reset();
+
       if (mounted) {
         Navigator.pushReplacementNamed(context, DashboardPage.routeName);
       }
