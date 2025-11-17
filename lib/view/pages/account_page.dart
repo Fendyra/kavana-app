@@ -328,7 +328,7 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                   Gap(12),
                   Text(
-                    'Pesan: Tugasnya memang "segampang itu" dan sepertinya kurang banyak dan menantang, saya dan teman-teman masih bisa nongkrong dan main karena tugasnya cukup dikerjain 2 jam saja selesai.\n\nKesan: Mata Kuliah ini sangat menyenangkan dan santai sekali, dosennya juga asik dan tidak membosankan apalagi pak bagus kalau ngajar di kelas suka ngelawak.',
+                    'Pesan: Tugas mata kuliah ini memang "segampang itu" dan sepertinya kurang banyak, saya dan teman-teman masih bisa nongkrong dan main karena tugasnya hanya cukup dikerjain 2 jam saja langsung selesai. Tetapi saya sangat berterimakasih kepada pak bagus, karena dari mata kuliah dan tugas akhir ini saya bisa belajar banyak dan insightful sekali\n\nKesan: Mata Kuliah ini sangat menyenangkan dan santai sekali, pak bahgus juga asik dan tidak boring kalo mengajar di kelas dan menjadikan suasana kelas belajar dengan menyenangkan.',
                     style: TextStyle(
                       fontSize: 14,
                       color: AppColor.textBody,
