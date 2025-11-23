@@ -147,7 +147,7 @@ class _HomeFragmentState extends State<HomeFragment> {
           ),
           const Gap(26),
           const Text(
-            'Mood Harian',
+            'Suasana Hati Hari Ini',
             style: TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 14,
