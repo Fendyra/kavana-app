@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -9,8 +7,6 @@ import 'package:kavana_app/common/enums.dart';
 import 'package:kavana_app/core/session.dart';
 import 'package:kavana_app/data/models/agenda_model.dart';
 import 'package:kavana_app/data/models/mood_model.dart';
-import 'package:kavana_app/data/models/user_model.dart';
-import 'package:kavana_app/data/models/user_preferences.dart';
 import 'package:kavana_app/view/controllers/home/agenda_today_controller.dart';
 import 'package:kavana_app/view/controllers/home/mood_today_controller.dart';
 import 'package:kavana_app/view/controllers/profile_controller.dart';
@@ -19,7 +15,9 @@ import 'package:kavana_app/view/pages/agenda/all_agenda_page.dart';
 import 'package:kavana_app/view/pages/agenda/detail_agenda_page.dart';
 import 'package:kavana_app/view/pages/chat_ai_page.dart';
 import 'package:kavana_app/view/pages/mood/choose_mood_page.dart';
+import 'package:kavana_app/view/pages/pet/pet_page.dart';
 import 'package:kavana_app/view/widget/response_failed.dart';
+import 'package:kavana_app/view/widget/pet_mini_widget.dart';
 
 class HomeFragment extends StatefulWidget {
   const HomeFragment({super.key});
@@ -64,6 +62,10 @@ class _HomeFragmentState extends State<HomeFragment> {
     Navigator.pushNamed(context, AllAgendaPage.routeName);
   }
 
+  void gotoPetPage() {
+    Navigator.pushNamed(context, PetPage.routeName).then((_) => refresh());
+  }
+
   void gotoDetailAgenda(int id) {
     Navigator.pushNamed(
       context,
@@ -100,6 +102,8 @@ class _HomeFragmentState extends State<HomeFragment> {
           buildHeader(),
           const Gap(36),
           buildYourMoodToday(),
+          const Gap(36),
+          PetMiniWidget(onTap: gotoPetPage),
           const Gap(36),
           buildYourAgendaToday(),
           const Gap(140),

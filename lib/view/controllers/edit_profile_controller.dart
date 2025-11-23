@@ -2,9 +2,11 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kavana_app/common/enums.dart';
+import 'package:kavana_app/common/info.dart';
 import 'package:kavana_app/data/models/user_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
+import 'package:flutter/foundation.dart';
 
 class EditProfileController extends GetxController {
   final _state = EditProfileState(
@@ -23,6 +25,15 @@ class EditProfileController extends GetxController {
   void onInit() {
     super.onInit();
     loadUserData();
+  }
+
+  // Check if running on iOS Simulator
+  bool get isSimulator {
+    if (!kIsWeb && Platform.isIOS) {
+      return !Platform.environment.containsKey('SIMULATOR_DEVICE_NAME') &&
+             defaultTargetPlatform == TargetPlatform.iOS;
+    }
+    return false;
   }
 
   // Load user data from SharedPreferences
@@ -81,9 +92,19 @@ class EditProfileController extends GetxController {
         await _saveImageToLocalStorage(pickedFile);
       }
     } catch (e) {
+      // Handle simulator camera not available
+      String errorMessage = 'Gagal mengambil foto dari kamera';
+      if (e.toString().contains('camera_access_denied')) {
+        errorMessage = 'Akses kamera ditolak. Silakan aktifkan di pengaturan.';
+      } else if (e.toString().contains('not available') || 
+                 e.toString().contains('Camera not available')) {
+        errorMessage = 'Kamera tidak tersedia di simulator. Gunakan perangkat fisik atau pilih dari galeri.';
+        Info.failed(errorMessage);
+      }
+      
       state = state.copyWith(
         statusRequest: StatusRequest.failed,
-        message: 'Gagal mengambil foto dari kamera',
+        message: errorMessage,
       );
     }
   }

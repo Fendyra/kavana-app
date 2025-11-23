@@ -11,6 +11,8 @@ import 'package:kavana_app/data/models/user_model.dart';
 import 'package:kavana_app/view/controllers/choose_mood_controller.dart';
 import 'package:kavana_app/view/controllers/home/mood_today_controller.dart';
 import 'package:kavana_app/view/widget/custom_button.dart';
+import 'package:kavana_app/services/pet_integration_helper.dart';
+import 'package:kavana_app/data/models/mood_model.dart';
 
 class ChooseMoodPage extends StatefulWidget {
   const ChooseMoodPage({super.key});
@@ -39,6 +41,14 @@ class _ChooseMoodPageState extends State<ChooseMoodPage> {
     if (state.statusRequest == StatusRequest.success) {
       Info.success(state.message);
       moodTodayMoodController.fetchData(userId);
+      
+      // Update pet happiness based on mood
+      final mood = MoodModel(
+        level: chooseMoodController.level,
+        createdAt: DateTime.now(),
+      );
+      PetIntegrationHelper.updatePetFromMood(mood);
+      
       if (mounted) {
         Navigator.pop(context);
       }

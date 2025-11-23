@@ -18,6 +18,7 @@ import 'package:kavana_app/view/pages/register_page.dart';
 import 'package:kavana_app/view/pages/solution/add_solution_page.dart';
 import 'package:kavana_app/view/pages/solution/detail_solution_page.dart';
 import 'package:kavana_app/view/pages/solution/update_solution_page.dart';
+import 'package:kavana_app/view/pages/pet/pet_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -100,6 +101,7 @@ class MainApp extends StatelessWidget {
         SavingsHistoryPage.routeName: (context) => const SavingsHistoryPage(),
         ChatAIPage.routeName: (context) => const ChatAIPage(),
         EditProfilePage.routeName: (context) => const EditProfilePage(),
+        PetPage.routeName: (context) => const PetPage(),
 
       },
 

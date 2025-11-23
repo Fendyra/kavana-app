@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:d_info/d_info.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -48,6 +49,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   void _showImageSourceDialog() {
+    // Check if running on simulator (iOS Simulator doesn't have camera)
+    final bool isIOSSimulator = !kIsWeb && Platform.isIOS && 
+                                Platform.environment['SIMULATOR_DEVICE_NAME'] != null;
+    
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -73,18 +78,45 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     color: AppColor.textTitle,
                   ),
                 ),
-                const Gap(20),
-                ListTile(
-                  leading: const Icon(
-                    Icons.camera_alt_rounded,
-                    color: AppColor.primary,
+                if (isIOSSimulator)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppColor.secondary.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Row(
+                        children: [
+                          Icon(Icons.info_outline, size: 20, color: AppColor.primary),
+                          Gap(10),
+                          Expanded(
+                            child: Text(
+                              'Kamera tidak tersedia di simulator',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColor.textBody,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  title: const Text('Ambil Foto'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    editProfileController.pickImageFromCamera();
-                  },
-                ),
+                const Gap(20),
+                if (!isIOSSimulator)
+                  ListTile(
+                    leading: const Icon(
+                      Icons.camera_alt_rounded,
+                      color: AppColor.primary,
+                    ),
+                    title: const Text('Ambil Foto'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      editProfileController.pickImageFromCamera();
+                    },
+                  ),
                 ListTile(
                   leading: const Icon(
                     Icons.photo_library_rounded,

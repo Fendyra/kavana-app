@@ -8,7 +8,9 @@ import 'package:kavana_app/common/info.dart';
 import 'package:kavana_app/core/session.dart';
 import 'package:kavana_app/data/models/savings_model.dart';
 import 'package:kavana_app/view/controllers/finance/add_savings_controller.dart';
+import 'package:kavana_app/view/controllers/finance/finance_controller.dart';
 import 'package:kavana_app/view/widget/custom_button.dart';
+import 'package:kavana_app/services/pet_integration_helper.dart';
 
 class AddSavingsPage extends StatefulWidget {
   const AddSavingsPage({super.key});
@@ -77,6 +79,15 @@ class _AddSavingsPageState extends State<AddSavingsPage> {
 
     if (state.statusRequest == StatusRequest.success) {
       Info.success(state.message);
+      
+      // Update pet currency from total savings
+      final financeController = Get.find<FinanceController>();
+      if (financeController.state.totalSavings > 0) {
+        PetIntegrationHelper.updateCurrencyFromSavings(
+          financeController.state.totalSavings,
+        );
+      }
+      
       if (mounted) Navigator.pop(context);
       return;
     }
